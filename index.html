@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GameLab Asset Store</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="hero">
+    <div class="hero-content">
+      <div class="brand-group">
+        <a class="brand" href="index.html" aria-label="Go to main page">
+          <div class="logo" aria-label="GameLab logo">
+            <span class="logo-g">G</span>
+            <span class="logo-shape"></span>
+          </div>
+          <div>
+            <h1>GameLab</h1>
+            <p>Premium assets for indie and AAA game projects.</p>
+          </div>
+        </a>
+      </div>
+
+      <form class="search-wrap" role="search" aria-label="Search assets" action="index.html" method="get">
+        <span class="search-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none">
+            <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"></circle>
+            <path d="M16.5 16.5L21 21" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+          </svg>
+        </span>
+        <input class="search-input" type="search" name="search" placeholder="Search assets, tools, categories..." aria-label="Search assets by name or category">
+        <button class="search-btn" type="submit">Search</button>
+      </form>
+
+      <nav class="top-nav" aria-label="Main navigation">
+        <a class="btn btn-nav" href="games.html">Games</a>
+        <a class="btn btn-nav" href="forum.html">Forum</a>
+        <a class="btn btn-nav" href="study.html">Study materials</a>
+      </nav>
+
+      <a class="account-link" href="auth.html" aria-label="Open account">
+        <span class="account-icon" aria-hidden="true"></span>
+      </a>
+    </div>
+  </header>
+
+  <main class="catalog">
+    <section class="section-title">
+      <h2>Featured Game Assets</h2>
+      <p>Browse by type on the left or search by keyword to find the right pack faster.</p>
+    </section>
+
+    <div class="catalog-layout">
+      <aside class="asset-sidebar" aria-label="Asset categories">
+        <h3>Asset Types</h3>
+        <a href="#" class="filter-link active" data-filter="all">All assets</a>
+        <a href="#" class="filter-link" data-filter="3d">3D Models</a>
+        <a href="#" class="filter-link" data-filter="environment">Environments</a>
+        <a href="#" class="filter-link" data-filter="characters">Characters</a>
+        <a href="#" class="filter-link" data-filter="vfx">VFX</a>
+        <a href="#" class="filter-link" data-filter="audio">Audio</a>
+        <a href="#" class="filter-link" data-filter="ui">UI</a>
+        <a href="#" class="filter-link" data-filter="tools">Tools</a>
+        <a href="#" class="filter-link" data-filter="animations">Animations</a>
+      </aside>
+
+      <div class="catalog-content">
+        <div class="results-toolbar" aria-label="Results controls">
+          <p class="results-count" aria-live="polite">Showing 16 of 16</p>
+          <label class="sort-label" for="sort-select">Sort by</label>
+          <select id="sort-select" class="sort-select" aria-label="Sort assets">
+            <option value="featured">Featured</option>
+            <option value="price-asc">Price: Low to High</option>
+            <option value="price-desc">Price: High to Low</option>
+            <option value="rating-desc">Rating: High to Low</option>
+            <option value="rating-asc">Rating: Low to High</option>
+          </select>
+        </div>
+
+        <section class="card-grid" aria-label="Game assets list">
+        <article class="card" data-type="3d environment" data-rating="4.8">
+          <div class="card-tag">3D Environment</div>
+          <h3>Neon City Streets Pack</h3>
+          <img class="asset-image" src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=900&q=80" alt="Neon city environment asset preview">
+          <p>Modular cyberpunk roads, props, signs, and building fronts with PBR textures.</p>
+          <ul><li>58 models</li><li>4K textures</li><li>Unreal + Unity ready</li></ul>
+          <div class="card-footer"><span class="price">$39</span><button class="btn btn-small">View</button></div>
+        </article>
+
+        <article class="card" data-type="characters animations" data-rating="4.9">
+          <div class="card-tag">Characters</div>
+          <h3>Fantasy Hero Bundle</h3>
+          <img class="asset-image" src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=900&q=80" alt="Fantasy heroes asset preview">
+          <p>Stylized knight, archer, and mage with walk, attack, and idle animation sets.</p>
+          <ul><li>3 hero rigs</li><li>120+ animations</li><li>Humanoid retargeting</li></ul>
+          <div class="card-footer"><span class="price">$55</span><button class="btn btn-small">View</button></div>
+        </article>
+
+        <article class="card" data-type="audio" data-rating="4.6">
+          <div class="card-tag">Audio</div>
+          <h3>Boss Battle Sound Kit</h3>
+          <img class="asset-image" src="https://images.unsplash.com/photo-1516280440614-37939bbacd81?auto=format&fit=crop&w=900&q=80" alt="Audio production setup asset preview">
+          <p>High-energy combat music loops, hit effects, and cinematic transition stingers.</p>
+          <ul><li>34 music loops</li><li>90 SFX</li><li>WAV + OGG formats</li></ul>
+          <div class="card-footer"><span class="price">$24</span><button class="btn btn-small">View</button></div>
+        </article>
+
+        <article class="card" data-type="vfx" data-rating="4.7">
+          <div class="card-tag">VFX</div>
+          <h3>Magic Spell VFX Library</h3>
+          <img class="asset-image" src="https://images.unsplash.com/photo-1633412802994-5c058f151b66?auto=format&fit=crop&w=900&q=80" alt="Magic spell effects asset preview">
+          <p>Elemental spells with impact bursts, trail effects, and shader-based glows.</p>
+          <ul><li>45 effects</li><li>Color variants</li><li>Performance presets</li></ul>
+          <div class="card-footer"><span class="price">$29</span><button class="btn btn-small">View</button></div>
+        </article>
+
+        <article class="card" data-type="3d environment" data-rating="4.7">
+          <div class="card-tag">3D Environment</div>
+          <h3>Medieval Castle Builder</h3>
+          <img class="asset-image" src="https://images.unsplash.com/photo-1531572753322-ad063cecc140?auto=format&fit=crop&w=900&q=80" alt="Castle environment asset preview">
+          <p>Snap-fit walls, towers, gates, and props for RPG towns and fortress scenes.</p>
+          <ul><li>76 modules</li><li>LOD included</li><li>URP + HDRP</li></ul>
+          <div class="card-footer"><span class="price">$44</span><button class="btn btn-small">View</button></div>
+        </article>
+
+        <article class="card" data-type="vfx" data-rating="4.5">
+          <div class="card-tag">VFX</div>
+          <h3>Sci-Fi Weapons FX Set</h3>
+          <img class="asset-image" src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=900&q=80" alt="Sci fi effects asset preview">
+          <p>Muzzle flashes, beam impacts, shield hits, and plasma trails for shooters.</p>
+          <ul><li>62 prefabs</li><li>GPU particles</li><li>Mobile presets</li></ul>
+          <div class="card-footer"><span class="price">$31</span><button class="btn btn-small">View</button></div>
+        </article>
+
+        <article class="card" data-type="audio" data-rating="4.4">
+          <div class="card-tag">Audio</div>
+          <h3>Ambient Worlds Collection</h3>
+          <img class="asset-image" src="https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?auto=format&fit=crop&w=900&q=80" alt="Ambient music asset preview">
+          <p>Forest, cave, city, and space ambience loops for immersive exploration games.</p>
+          <ul><li>48 ambience loops</li><li>Layer-ready stems</li><li>Seamless looping</li></ul>
+          <div class="card-footer"><span class="price">$27</span><button class="btn btn-small">View</button></div>
+        </article>
+
+        <article class="card" data-type="ui" data-rating="4.8">
+          <div class="card-tag">UI</div>
+          <h3>RPG HUD Pro Kit</h3>
+          <img class="asset-image" src="https://images.unsplash.com/photo-1545239351-1141bd82e8a6?auto=format&fit=crop&w=900&q=80" alt="UI elements asset preview">
+          <p>Health bars, quest widgets, inventory panels, and scalable icon packs.</p>
+          <ul><li>220 UI elements</li><li>Figma source</li><li>Dark/light themes</li></ul>
+          <div class="card-footer"><span class="price">$22</span><button class="btn btn-small">View</button></div>
+        </article>
+
+        <article class="card" data-type="tools" data-rating="4.6">
+          <div class="card-tag">Tools</div>
+          <h3>Level Design Toolkit</h3>
+          <img class="asset-image" src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=900&q=80" alt="Game tools asset preview">
+          <p>Grid snapping, procedural placement, and prefab randomizer for faster blockouts.</p>
+          <ul><li>Editor extensions</li><li>Batch workflow</li><li>Docs included</li></ul>
+          <div class="card-footer"><span class="price">$35</span><button class="btn btn-small">View</button></div>
+        </article>
+
+        <article class="card" data-type="animations characters" data-rating="4.9">
+          <div class="card-tag">Animations</div>
+          <h3>Melee Combat Motion Pack</h3>
+          <img class="asset-image" src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=900&q=80" alt="Combat animations asset preview">
+          <p>Combo chains, dodges, parries, and finishers for swords and dual-wield sets.</p>
+          <ul><li>180 clips</li><li>Root motion variants</li><li>Humanoid rig</li></ul>
+          <div class="card-footer"><span class="price">$49</span><button class="btn btn-small">View</button></div>
+        </article>
+
+        <article class="card" data-type="3d" data-rating="4.5">
+          <div class="card-tag">3D Props</div>
+          <h3>Survival Props Mega Pack</h3>
+          <img class="asset-image" src="https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=900&q=80" alt="3D props asset preview">
+          <p>Tents, crates, camp gear, and industrial clutter for realistic world building.</p>
+          <ul><li>140 props</li><li>PBR materials</li><li>Game-ready UVs</li></ul>
+          <div class="card-footer"><span class="price">$33</span><button class="btn btn-small">View</button></div>
+        </article>
+
+        <article class="card" data-type="vfx" data-rating="4.3">
+          <div class="card-tag">VFX</div>
+          <h3>Weather FX Controller</h3>
+          <img class="asset-image" src="https://images.unsplash.com/photo-1500673922987-e212871fec22?auto=format&fit=crop&w=900&q=80" alt="Weather effects asset preview">
+          <p>Rain, snow, fog, lightning, and wind systems with time-of-day blending.</p>
+          <ul><li>12 weather profiles</li><li>Timeline support</li><li>Performance LOD</li></ul>
+          <div class="card-footer"><span class="price">$28</span><button class="btn btn-small">View</button></div>
+        </article>
+
+        <article class="card" data-type="ui" data-rating="4.4">
+          <div class="card-tag">UI</div>
+          <h3>Mobile Store Interface</h3>
+          <img class="asset-image" src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&w=900&q=80" alt="Mobile interface asset preview">
+          <p>Shop screens, reward popups, and monetization widgets for F2P games.</p>
+          <ul><li>45 templates</li><li>Adaptive layout</li><li>Localization ready</li></ul>
+          <div class="card-footer"><span class="price">$18</span><button class="btn btn-small">View</button></div>
+        </article>
+
+        <article class="card" data-type="tools" data-rating="4.7">
+          <div class="card-tag">Tools</div>
+          <h3>Dialogue System Runtime</h3>
+          <img class="asset-image" src="https://images.unsplash.com/photo-1480694313141-fce5e697ee25?auto=format&fit=crop&w=900&q=80" alt="Dialogue system asset preview">
+          <p>Branching conversations, localization, and quest hooks for narrative games.</p>
+          <ul><li>Node editor</li><li>Save support</li><li>Voice-over hooks</li></ul>
+          <div class="card-footer"><span class="price">$41</span><button class="btn btn-small">View</button></div>
+        </article>
+
+        <article class="card" data-type="animations" data-rating="4.6">
+          <div class="card-tag">Animations</div>
+          <h3>Parkour Animation Suite</h3>
+          <img class="asset-image" src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=900&q=80" alt="Parkour animation asset preview">
+          <p>Vaults, wall-runs, climbs, slides, and landings tuned for third-person games.</p>
+          <ul><li>96 clips</li><li>Blend trees included</li><li>Motion matching ready</li></ul>
+          <div class="card-footer"><span class="price">$36</span><button class="btn btn-small">View</button></div>
+        </article>
+
+        <article class="card" data-type="environment 3d" data-rating="4.8">
+          <div class="card-tag">Environment</div>
+          <h3>Stylized Forest Biome</h3>
+          <img class="asset-image" src="https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=900&q=80" alt="Forest environment asset preview">
+          <p>Trees, foliage, rocks, and terrain shaders for colorful adventure worlds.</p>
+          <ul><li>80 prefabs</li><li>Wind animation</li><li>Terrain tools</li></ul>
+          <div class="card-footer"><span class="price">$37</span><button class="btn btn-small">View</button></div>
+        </article>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <p class="footer-copy">© 2026 GameLab. All rights reserved.</p>
+      <nav class="footer-links" aria-label="Footer navigation">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+        <a href="#">Support</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script src="i18n.js"></script>
+  <script src="asset-data.js"></script>
+  <script src="search-filters.js"></script>
+</body>
+</html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GameLab Account</title>
+  <link rel="stylesheet" href="auth.css">
+</head>
+<body>
+  <main class="auth-page">
+    <section class="auth-shell" aria-label="Account access">
+      <a class="back-link" href="index.html">&larr; Back to store</a>
+
+      <header class="auth-head">
+        <h1>Welcome to GameLab</h1>
+        <p>Sign in to your account or create a new one.</p>
+      </header>
+
+      <div class="auth-tabs" role="tablist" aria-label="Authentication tabs">
+        <button class="tab-btn active" id="tab-login" data-target="panel-login" role="tab" aria-selected="true">Login</button>
+        <button class="tab-btn" id="tab-register" data-target="panel-register" role="tab" aria-selected="false">Register</button>
+      </div>
+
+      <section class="auth-panel visible" id="panel-login" role="tabpanel" aria-labelledby="tab-login">
+        <form class="form-block" id="login-form" action="#" method="post">
+          <label for="login-email">Email</label>
+          <input id="login-email" type="email" name="email" placeholder="you@example.com" autocomplete="email" required>
+
+          <label for="login-password">Password</label>
+          <div class="password-field">
+            <input id="login-password" type="password" name="password" placeholder="Enter your password" autocomplete="current-password" required>
+            <button class="password-toggle" type="button" aria-label="Show password" aria-pressed="false" data-target="login-password">&#128065;</button>
+          </div>
+
+          <div class="login-options">
+            <label class="checkbox-label remember-me">
+              <input type="checkbox" name="remember" id="remember-me">
+              <span>Remember me</span>
+            </label>
+            <a href="forgot-password.html" class="forgot-link">Forgot password?</a>
+          </div>
+
+          <button class="btn btn-primary" type="submit">Sign In</button>
+          <p class="form-feedback" id="login-feedback" aria-live="polite"></p>
+        </form>
+      </section>
+
+      <section class="auth-panel" id="panel-register" role="tabpanel" aria-labelledby="tab-register">
+        <form class="form-block" id="register-form" action="#" method="post">
+          <label for="register-name">Full name</label>
+          <input id="register-name" type="text" name="name" placeholder="Your full name" autocomplete="name" required>
+
+          <label for="register-email">Email</label>
+          <input id="register-email" type="email" name="email" placeholder="you@example.com" autocomplete="email" required>
+
+          <label for="register-password">Password</label>
+          <div class="password-field">
+            <input id="register-password" type="password" name="password" placeholder="Create a password" autocomplete="new-password" required>
+            <button class="password-toggle" type="button" aria-label="Show password" aria-pressed="false" data-target="register-password">&#128065;</button>
+          </div>
+
+          <label class="checkbox-label register-consent">
+            <input type="checkbox" name="consent" id="register-consent" required>
+            <span>I agree to the <a href="#" class="policy-link">Privacy Policy</a> and <a href="#" class="policy-link">Terms of Service</a></span>
+          </label>
+
+          <button class="btn btn-secondary" type="submit">Create Account</button>
+          <p class="form-feedback" id="register-feedback" aria-live="polite"></p>
+        </form>
+      </section>
+
+      <div class="divider"><span>or continue with</span></div>
+
+      <div class="social-row" aria-label="Social login">
+        <button class="social-btn" type="button">Google</button>
+        <button class="social-btn" type="button">Discord</button>
+        <button class="social-btn" type="button">GitHub</button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <p class="footer-copy">© 2026 GameLab. All rights reserved.</p>
+      <nav class="footer-links" aria-label="Footer navigation">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+        <a href="#">Support</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script src="i18n.js"></script>
+  <script src="auth.js"></script>
+</body>
+</html>

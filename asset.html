@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GameLab Asset Details</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="hero">
+    <div class="hero-content">
+      <div class="brand-group">
+        <a class="brand" href="index.html" aria-label="Go to main page">
+          <div class="logo" aria-label="GameLab logo">
+            <span class="logo-g">G</span>
+            <span class="logo-shape"></span>
+          </div>
+          <div>
+            <h1>GameLab</h1>
+            <p>Asset details page</p>
+          </div>
+        </a>
+      </div>
+      <a class="account-link" href="auth.html" aria-label="Open account">
+        <span class="account-icon" aria-hidden="true"></span>
+      </a>
+    </div>
+  </header>
+
+  <main class="asset-page">
+    <a class="back-link" href="index.html">&larr; Back to catalog</a>
+
+    <section class="asset-hero-card" id="asset-card" aria-live="polite">
+      <div class="asset-media-wrap">
+        <img class="asset-detail-image" id="asset-image" src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=900&q=80" alt="Asset preview">
+      </div>
+      <div class="asset-main-info">
+        <span class="asset-badge" id="asset-type">Asset type</span>
+        <h2 id="asset-title">Loading asset...</h2>
+        <p class="asset-intro" id="asset-intro"></p>
+        <p class="asset-full-description" id="asset-full-description"></p>
+
+        <div class="asset-meta-grid">
+          <div class="meta-item"><strong>Price:</strong> <span id="asset-price"></span></div>
+          <div class="meta-item"><strong>Rating:</strong> <span id="asset-rating"></span></div>
+          <div class="meta-item"><strong>Compatibility:</strong> <span id="asset-compatibility"></span></div>
+          <div class="meta-item"><strong>File size:</strong> <span id="asset-file-size"></span></div>
+          <div class="meta-item"><strong>Last update:</strong> <span id="asset-update"></span></div>
+        </div>
+
+        <ul class="asset-features" id="asset-features"></ul>
+      </div>
+    </section>
+
+    <section class="asset-rating-section">
+      <h3>Asset Rating (visual preview)</h3>
+      <p class="section-hint">UI only for now, rating logic can be connected later.</p>
+      <div class="rating-shell">
+        <div class="rating-summary">
+          <span class="rating-value" id="rating-value">0.0</span>
+          <div class="stars-static" aria-label="Static rating stars">★★★★★</div>
+          <span class="rating-votes" id="rating-votes">0 votes</span>
+        </div>
+        <div class="rating-bars">
+          <div class="bar-row"><span>5</span><div class="bar"><div class="fill fill-5"></div></div><span>72%</span></div>
+          <div class="bar-row"><span>4</span><div class="bar"><div class="fill fill-4"></div></div><span>18%</span></div>
+          <div class="bar-row"><span>3</span><div class="bar"><div class="fill fill-3"></div></div><span>7%</span></div>
+          <div class="bar-row"><span>2</span><div class="bar"><div class="fill fill-2"></div></div><span>2%</span></div>
+          <div class="bar-row"><span>1</span><div class="bar"><div class="fill fill-1"></div></div><span>1%</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="asset-comments-section">
+      <h3>Comments (placeholder for future)</h3>
+      <p class="section-hint">Prepared visual block. You can connect API/storage later.</p>
+
+      <form class="comment-form" action="#" method="post">
+        <label for="comment-input">Write your comment</label>
+        <textarea id="comment-input" rows="4" placeholder="Share your feedback about this asset..."></textarea>
+        <button type="button" class="btn btn-small">Publish (soon)</button>
+      </form>
+
+      <div class="comments-list" id="comments-list">
+        <article class="comment-item">
+          <div class="comment-head">
+            <strong>PlayerOne</strong>
+            <span>2 days ago</span>
+          </div>
+          <p>Great structure and clear naming. Integration was fast.</p>
+        </article>
+        <article class="comment-item">
+          <div class="comment-head">
+            <strong>DevStudio</strong>
+            <span>1 week ago</span>
+          </div>
+          <p>Looks promising. Waiting for more update notes in changelog.</p>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <p class="footer-copy">© 2026 GameLab. All rights reserved.</p>
+      <nav class="footer-links" aria-label="Footer navigation">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+        <a href="#">Support</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script src="i18n.js"></script>
+  <script src="asset-data.js"></script>
+  <script src="asset-details.js"></script>
+</body>
+</html>

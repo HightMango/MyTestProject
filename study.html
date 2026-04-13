@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GameLab - Study Materials</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="study.css">
+</head>
+<body>
+  <header class="hero">
+    <div class="hero-content">
+      <div class="brand-group">
+        <a class="brand" href="index.html" aria-label="Go to main page">
+          <div class="logo" aria-label="GameLab logo">
+            <span class="logo-g">G</span>
+            <span class="logo-shape"></span>
+          </div>
+          <div>
+            <h1>GameLab</h1>
+            <p>Premium assets for indie and AAA game projects.</p>
+          </div>
+        </a>
+      </div>
+
+      <form class="search-wrap" role="search" aria-label="Search assets" action="index.html" method="get">
+        <span class="search-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none">
+            <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"></circle>
+            <path d="M16.5 16.5L21 21" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+          </svg>
+        </span>
+        <input class="search-input" type="search" name="search" placeholder="Search assets, tools, categories..." aria-label="Search assets by name or category">
+        <button class="search-btn" type="submit">Search</button>
+      </form>
+
+      <nav class="top-nav" aria-label="Main navigation">
+        <a class="btn btn-nav" href="games.html">Games</a>
+        <a class="btn btn-nav" href="forum.html">Forum</a>
+        <a class="btn btn-nav" href="study.html">Study materials</a>
+      </nav>
+
+      <a class="account-link" href="profile.html" aria-label="Open account">
+        <span class="account-icon" aria-hidden="true"></span>
+      </a>
+    </div>
+  </header>
+
+  <main class="study-page">
+    <section class="study-intro">
+      <h1>Study Materials</h1>
+      <p>Curated resources to help you learn game development — from beginner guides to advanced tutorials and official documentation.</p>
+    </section>
+
+    <!-- Навигация-фильтр -->
+    <nav class="study-nav" aria-label="Study categories">
+      <button class="study-tab active" data-category="all">All</button>
+      <button class="study-tab" data-category="engines">Engines</button>
+      <button class="study-tab" data-category="documentation">Documentation</button>
+      <button class="study-tab" data-category="videos">Video Tutorials</button>
+      <button class="study-tab" data-category="communities">Communities</button>
+      <button class="study-tab" data-category="tools">Tools</button>
+    </nav>
+
+    <section class="study-grid" aria-label="Study resources">
+      <!-- ===== ENGINES ===== -->
+      <a class="study-card" data-category="engines" href="https://unity.com/" target="_blank" rel="noopener">
+        <div class="study-icon">🎮</div>
+        <div class="study-info">
+          <h3>Unity</h3>
+          <p class="study-desc">Popular cross-platform game engine for 2D and 3D projects. Supports C# scripting, URP, HDRP, and has an extensive Asset Store.</p>
+          <span class="study-tag">Engine</span>
+        </div>
+      </a>
+
+      <a class="study-card" data-category="engines" href="https://www.unrealengine.com/" target="_blank" rel="noopener">
+        <div class="study-icon">🌌</div>
+        <div class="study-info">
+          <h3>Unreal Engine 5</h3>
+          <p class="study-desc">AAA-grade engine with Nanite, Lumen, and Blueprints visual scripting. Used in Fortnite, PUBG, and many AAA titles.</p>
+          <span class="study-tag">Engine</span>
+        </div>
+      </a>
+
+      <a class="study-card" data-category="engines" href="https://godotengine.org/" target="_blank" rel="noopener">
+        <div class="study-icon">🤖</div>
+        <div class="study-info">
+          <h3>Godot Engine</h3>
+          <p class="study-desc">Free, open-source 2D/3D engine with its own GDScript language. Lightweight, community-driven, great for indie projects.</p>
+          <span class="study-tag">Engine · Open Source</span>
+        </div>
+      </a>
+
+      <!-- ===== DOCUMENTATION ===== -->
+      <a class="study-card" data-category="documentation" href="https://docs.unity3d.com/" target="_blank" rel="noopener">
+        <div class="study-icon">📖</div>
+        <div class="study-info">
+          <h3>Unity Documentation</h3>
+          <p class="study-desc">Official Unity scripting API reference, manual, and guides for all engine subsystems.</p>
+          <span class="study-tag">Documentation</span>
+        </div>
+      </a>
+
+      <a class="study-card" data-category="documentation" href="https://dev.epicgames.com/documentation/en-us/unreal-engine" target="_blank" rel="noopener">
+        <div class="study-icon">📚</div>
+        <div class="study-info">
+          <h3>Unreal Engine Documentation</h3>
+          <p class="study-desc">Complete UE5 documentation covering C++ API, Blueprints, rendering, animation, and more.</p>
+          <span class="study-tag">Documentation</span>
+        </div>
+      </a>
+
+      <a class="study-card" data-category="documentation" href="https://docs.godotengine.org/" target="_blank" rel="noopener">
+        <div class="study-icon">📝</div>
+        <div class="study-info">
+          <h3>Godot Documentation</h3>
+          <p class="study-desc">Comprehensive Godot manual with step-by-step tutorials, GDScript reference, and class docs.</p>
+          <span class="study-tag">Documentation</span>
+        </div>
+      </a>
+
+      <a class="study-card" data-category="documentation" href="https://docs.microsoft.com/en-us/dotnet/csharp/" target="_blank" rel="noopener">
+        <div class="study-icon">🔷</div>
+        <div class="study-info">
+          <h3>C# Language Reference</h3>
+          <p class="study-desc">Microsoft's official C# documentation — essential for Unity scripting and .NET game development.</p>
+          <span class="study-tag">Language · C#</span>
+        </div>
+      </a>
+
+      <a class="study-card" data-category="documentation" href="https://learn.microsoft.com/en-us/cpp/" target="_blank" rel="noopener">
+        <div class="study-icon">⚙️</div>
+        <div class="study-info">
+          <h3>C++ Documentation</h3>
+          <p class="study-desc">C++ reference for Unreal Engine native development and low-level game programming.</p>
+          <span class="study-tag">Language · C++</span>
+        </div>
+      </a>
+
+      <a class="study-card" data-category="documentation" href="https://www.lua.org/manual/5.4/" target="_blank" rel="noopener">
+        <div class="study-icon">🌙</div>
+        <div class="study-info">
+          <h3>Lua Documentation</h3>
+          <p class="study-desc">Lua scripting reference — used in Defold, Roblox, and many modding communities.</p>
+          <span class="study-tag">Language · Lua</span>
+        </div>
+      </a>
+
+      <!-- ===== VIDEO TUTORIALS ===== -->
+      <a class="study-card" data-category="videos" href="https://www.youtube.com/@Brackeys" target="_blank" rel="noopener">
+        <div class="study-icon">🎬</div>
+        <div class="study-info">
+          <h3>Brackeys (YouTube)</h3>
+          <p class="study-desc">One of the most popular Unity tutorial channels. Covers basics to advanced topics in a clear, concise style.</p>
+          <span class="study-tag">Video · Unity</span>
+        </div>
+      </a>
+
+      <a class="study-card" data-category="videos" href="https://www.youtube.com/@UnrealSensei" target="_blank" rel="noopener">
+        <div class="study-icon">🎥</div>
+        <div class="study-info">
+          <h3>Unreal Sensei (YouTube)</h3>
+          <p class="study-desc">In-depth Unreal Engine tutorials — from beginner crash courses to advanced environment and character creation.</p>
+          <span class="study-tag">Video · Unreal Engine</span>
+        </div>
+      </a>
+
+      <a class="study-card" data-category="videos" href="https://www.youtube.com/@GDQuest" target="_blank" rel="noopener">
+        <div class="study-icon">🎞️</div>
+        <div class="study-info">
+          <h3>GDQuest (YouTube)</h3>
+          <p class="study-desc">High-quality Godot tutorials covering 2D, 3D, GDScript, shaders, and game architecture patterns.</p>
+          <span class="study-tag">Video · Godot</span>
+        </div>
+      </a>
+
+      <a class="study-card" data-category="videos" href="https://www.youtube.com/@CodeMonkeyUnity" target="_blank" rel="noopener">
+        <div class="study-icon">🐒</div>
+        <div class="study-info">
+          <h3>Code Monkey (YouTube)</h3>
+          <p class="study-desc">Practical Unity tutorials with full game projects, clean architecture patterns, and tips.</p>
+          <span class="study-tag">Video · Unity</span>
+        </div>
+      </a>
+
+      <a class="study-card" data-category="videos" href="https://www.youtube.com/@RyanLaleyGames" target="_blank" rel="noopener">
+        <div class="study-icon">🎮</div>
+        <div class="study-info">
+          <h3>Ryan Laley (YouTube)</h3>
+          <p class="study-desc">Unreal Engine blueprint tutorials — inventory systems, AI, quests, and dialogue mechanics.</p>
+          <span class="study-tag">Video · Unreal Engine</span>
+        </div>
+      </a>
+
+      <a class="study-card" data-category="videos" href="https://www.youtube.com/@GameDevArts" target="_blank" rel="noopener">
+        <div class="study-icon">🎨</div>
+        <div class="study-info">
+          <h3>Game Dev Arts (YouTube)</h3>
+          <p class="study-desc">Creative game development content — shaders, VFX, procedural generation, and visual programming.</p>
+          <span class="study-tag">Video · Multi-Engine</span>
+        </div>
+      </a>
+
+      <!-- ===== COMMUNITIES ===== -->
+      <a class="study-card" data-category="communities" href="https://stackoverflow.com/questions/tagged/game-development" target="_blank" rel="noopener">
+        <div class="study-icon">💬</div>
+        <div class="study-info">
+          <h3>Stack Overflow — Game Dev</h3>
+          <p class="study-desc">Q&A platform for programming questions. Thousands of game development tagged answers.</p>
+          <span class="study-tag">Community · Q&A</span>
+        </div>
+      </a>
+
+      <a class="study-card" data-category="communities" href="https://www.reddit.com/r/gamedev/" target="_blank" rel="noopener">
+        <div class="study-icon">🗨️</div>
+        <div class="study-info">
+          <h3>r/gamedev (Reddit)</h3>
+          <p class="study-desc">Active subreddit for game developers. Share projects, get feedback, discuss industry news.</p>
+          <span class="study-tag">Community</span>
+        </div>
+      </a>
+
+      <a class="study-card" data-category="communities" href="https://discord.gg/gamedev" target="_blank" rel="noopener">
+        <div class="study-icon">🎧</div>
+        <div class="study-info">
+          <h3>GameDev Discord</h3>
+          <p class="study-desc">Real-time chat with game developers. Get instant help, collaborate, and share progress.</p>
+          <span class="study-tag">Community · Chat</span>
+        </div>
+      </a>
+
+      <!-- ===== TOOLS ===== -->
+      <a class="study-card" data-category="tools" href="https://www.blender.org/" target="_blank" rel="noopener">
+        <div class="study-icon">🧊</div>
+        <div class="study-info">
+          <h3>Blender</h3>
+          <p class="study-desc">Free, open-source 3D creation suite. Model, sculpt, animate, and export game-ready assets.</p>
+          <span class="study-tag">Tool · 3D</span>
+        </div>
+      </a>
+
+      <a class="study-card" data-category="tools" href="https://www.gimp.org/" target="_blank" rel="noopener">
+        <div class="study-icon">🖌️</div>
+        <div class="study-info">
+          <h3>GIMP</h3>
+          <p class="study-desc">Free image editor for texture creation, sprite editing, and 2D asset preparation.</p>
+          <span class="study-tag">Tool · 2D</span>
+        </div>
+      </a>
+
+      <a class="study-card" data-category="tools" href="https://www.audacityteam.org/" target="_blank" rel="noopener">
+        <div class="study-icon">🔊</div>
+        <div class="study-info">
+          <h3>Audacity</h3>
+          <p class="study-desc">Free, cross-platform audio editor. Record, edit, and export sound effects for games.</p>
+          <span class="study-tag">Tool · Audio</span>
+        </div>
+      </a>
+
+      <a class="study-card" data-category="tools" href="https://www.figma.com/" target="_blank" rel="noopener">
+        <div class="study-icon">📐</div>
+        <div class="study-info">
+          <h3>Figma</h3>
+          <p class="study-desc">Collaborative UI/UX design tool. Perfect for prototyping game interfaces and HUDs.</p>
+          <span class="study-tag">Tool · Design</span>
+        </div>
+      </a>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <p class="footer-copy">© 2026 GameLab. All rights reserved.</p>
+      <nav class="footer-links" aria-label="Footer navigation">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+        <a href="#">Support</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script src="i18n.js"></script>
+  <script src="study.js"></script>
+</body>
+</html>

@@ -1,0 +1,243 @@
+.publish-page {
+  padding: 32px 24px 48px;
+}
+
+.publish-shell {
+  max-width: 780px;
+  margin: 0 auto;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 28px 24px;
+  background: linear-gradient(180deg, #172552, #0f1630);
+  box-shadow: 0 12px 30px rgba(5, 8, 23, 0.45);
+}
+
+.publish-head {
+  margin-bottom: 28px;
+}
+
+.publish-head h1 {
+  margin: 0 0 10px;
+  font-size: 1.6rem;
+}
+
+.publish-head p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+/* Форма */
+.publish-form {
+  display: grid;
+  gap: 24px;
+}
+
+.form-section {
+  border: 1px solid #2f3f76;
+  border-radius: 12px;
+  padding: 18px 16px;
+  background: rgba(19, 33, 74, 0.45);
+  display: grid;
+  gap: 10px;
+}
+
+.form-section h2 {
+  margin: 0 0 4px;
+  font-size: 1.1rem;
+  color: var(--accent);
+}
+
+.form-section h3 {
+  margin: 10px 0 4px;
+  font-size: 0.95rem;
+  color: #c3d1ff;
+}
+
+label {
+  font-size: 0.88rem;
+  color: #dbe5ff;
+  font-weight: 600;
+}
+
+input[type="text"],
+input[type="url"],
+input[type="file"],
+select,
+textarea {
+  width: 100%;
+  border: 1px solid #415392;
+  border-radius: 10px;
+  background: linear-gradient(180deg, #13214a, #0e1838);
+  color: var(--text);
+  padding: 11px 12px;
+  font-size: 0.93rem;
+  font-family: inherit;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #98a8d6;
+}
+
+input:hover,
+textarea:hover {
+  border-color: #5469b6;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: #69b9ff;
+  box-shadow: 0 0 0 3px rgba(87, 199, 255, 0.18);
+}
+
+textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+select {
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%239eacd8' d='M1.41 0L6 4.58 10.59 0 12 1.41l-6 6-6-6z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 36px;
+}
+
+select:hover {
+  border-color: #5469b6;
+  background-color: transparent;
+}
+
+select option {
+  background: #13214a;
+  color: #eef2ff;
+  padding: 8px;
+}
+
+.file-hint {
+  font-size: 0.78rem;
+  color: #7a8abc;
+  margin-top: -4px;
+}
+
+.char-count {
+  font-size: 0.78rem;
+  color: #7a8abc;
+  text-align: right;
+  margin-top: -4px;
+}
+
+/* Чекбокс согласия */
+.publish-consent {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 0.85rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #c3d1ff;
+}
+
+.publish-consent input[type="checkbox"] {
+  width: auto;
+  margin: 3px 0 0;
+  accent-color: #57c7ff;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.policy-link {
+  color: var(--accent);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.policy-link:hover {
+  color: #ffffff;
+  text-decoration: underline;
+}
+
+/* Кнопка отправки */
+.btn-submit {
+  border: 0;
+  border-radius: 10px;
+  background: linear-gradient(90deg, #6d5cff, #9c66ff);
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 1rem;
+  padding: 13px 28px;
+  cursor: pointer;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.btn-submit:hover {
+  opacity: 0.88;
+  transform: translateY(-1px);
+}
+
+.form-feedback {
+  margin: 0;
+  min-height: 1.2em;
+  color: var(--muted);
+  font-size: 0.88rem;
+  text-align: center;
+}
+
+.form-feedback.error {
+  color: #ff9ca6;
+}
+
+.form-feedback.success {
+  color: #8df7bf;
+}
+
+@media (max-width: 600px) {
+  .publish-shell {
+    padding: 18px 14px;
+  }
+
+  .form-section {
+    padding: 14px 12px;
+  }
+}
+
+/* ===== Светлая тема ===== */
+html[data-theme="light"] .publish-shell {
+  background: #ffffff;
+  border-color: var(--line);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+html[data-theme="light"] .form-section {
+  background: #f9fafb;
+  border-color: var(--line);
+}
+
+html[data-theme="light"] input[type="text"],
+html[data-theme="light"] input[type="url"],
+html[data-theme="light"] input[type="file"],
+html[data-theme="light"] select,
+html[data-theme="light"] textarea {
+  background: #f5f7fa;
+  border-color: var(--line);
+  color: var(--text);
+}
+
+html[data-theme="light"] label {
+  color: #374151;
+}
+
+html[data-theme="light"] .publish-consent {
+  color: #4b5563;
+}
+
+html[data-theme="light"] .form-section h3 {
+  color: #374151;
+}

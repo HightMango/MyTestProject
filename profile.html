@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GameLab Profile</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="profile.css">
+</head>
+<body>
+  <header class="hero">
+    <div class="hero-content">
+      <div class="brand-group">
+        <a class="brand" href="index.html" aria-label="Go to main page">
+          <div class="logo" aria-label="GameLab logo">
+            <span class="logo-g">G</span>
+            <span class="logo-shape"></span>
+          </div>
+          <div>
+            <h1>GameLab</h1>
+            <p>Premium assets for indie and AAA game projects.</p>
+          </div>
+        </a>
+      </div>
+
+      <form class="search-wrap" role="search" aria-label="Search assets" action="index.html" method="get">
+        <span class="search-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none">
+            <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"></circle>
+            <path d="M16.5 16.5L21 21" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+          </svg>
+        </span>
+        <input class="search-input" type="search" name="search" placeholder="Search assets, tools, categories..." aria-label="Search assets by name or category">
+        <button class="search-btn" type="submit">Search</button>
+      </form>
+
+      <nav class="top-nav" aria-label="Main navigation">
+        <a class="btn btn-nav" href="games.html">Games</a>
+        <a class="btn btn-nav" href="forum.html">Forum</a>
+        <a class="btn btn-nav" href="study.html">Study materials</a>
+      </nav>
+
+      <a class="account-link" href="profile.html" aria-label="Open account">
+        <span class="account-icon" aria-hidden="true"></span>
+      </a>
+    </div>
+  </header>
+
+  <main class="profile-page">
+    <section class="profile-shell" aria-label="User profile">
+      <a class="back-link" href="index.html">&larr; Back to store</a>
+
+      <header class="profile-head">
+        <h1>My Profile</h1>
+        <p>Manage your public bio and view recently opened assets.</p>
+      </header>
+
+      <section class="panel" aria-label="Account details">
+        <h2>Account</h2>
+        <p><strong>Name:</strong> <span id="profile-name">-</span></p>
+        <p><strong>Email:</strong> <span id="profile-email">-</span></p>
+      </section>
+
+      <!-- Панель настроек -->
+      <section class="panel settings-panel" aria-label="Settings">
+        <h2>Settings</h2>
+
+        <div class="setting-row">
+          <label for="lang-select">Language</label>
+          <select id="lang-select">
+            <option value="ru">Русский</option>
+            <option value="en">English</option>
+          </select>
+        </div>
+
+        <div class="setting-row">
+          <label for="theme-toggle">Theme</label>
+          <div class="theme-options">
+            <button class="theme-option active" data-theme="dark">
+              <span class="theme-icon">🌙</span>
+              <span>Dark</span>
+            </button>
+            <button class="theme-option" data-theme="light">
+              <span class="theme-icon">☀️</span>
+              <span>Light</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" aria-label="Profile bio">
+        <h2>Bio</h2>
+        <form id="bio-form" class="bio-form">
+          <label for="bio-input">About you</label>
+          <textarea id="bio-input" maxlength="300" rows="5" placeholder="Tell a few words about yourself..."></textarea>
+          <div class="bio-row">
+            <small id="bio-count">0 / 300</small>
+            <button type="submit" class="btn">Save bio</button>
+          </div>
+          <p class="feedback" id="bio-feedback" aria-live="polite"></p>
+        </form>
+      </section>
+
+      <section class="panel" aria-label="Recent asset views">
+        <h2>Recently viewed assets</h2>
+        <div id="recent-list" class="recent-grid"></div>
+      </section>
+
+      <button id="logout-btn" class="btn btn-ghost" type="button">Log out</button>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <p class="footer-copy">© 2026 GameLab. All rights reserved.</p>
+      <nav class="footer-links" aria-label="Footer navigation">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+        <a href="#">Support</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script src="i18n.js"></script>
+  <script src="profile.js"></script>
+</body>
+</html>

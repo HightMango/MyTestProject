@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GameLab - Publish Your Game</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="publish.css">
+</head>
+<body>
+  <header class="hero">
+    <div class="hero-content">
+      <div class="brand-group">
+        <a class="brand" href="index.html" aria-label="Go to main page">
+          <div class="logo" aria-label="GameLab logo">
+            <span class="logo-g">G</span>
+            <span class="logo-shape"></span>
+          </div>
+          <div>
+            <h1>GameLab</h1>
+            <p>Premium assets for indie and AAA game projects.</p>
+          </div>
+        </a>
+      </div>
+
+      <form class="search-wrap" role="search" aria-label="Search assets" action="index.html" method="get">
+        <span class="search-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none">
+            <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"></circle>
+            <path d="M16.5 16.5L21 21" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+          </svg>
+        </span>
+        <input class="search-input" type="search" name="search" placeholder="Search assets, tools, categories..." aria-label="Search assets by name or category">
+        <button class="search-btn" type="submit">Search</button>
+      </form>
+
+      <nav class="top-nav" aria-label="Main navigation">
+        <a class="btn btn-nav" href="games.html">Games</a>
+        <a class="btn btn-nav" href="forum.html">Forum</a>
+        <a class="btn btn-nav" href="study.html">Study materials</a>
+      </nav>
+
+      <a class="account-link" href="profile.html" aria-label="Open account">
+        <span class="account-icon" aria-hidden="true"></span>
+      </a>
+    </div>
+  </header>
+
+  <main class="publish-page">
+    <section class="publish-shell">
+      <a class="back-link" href="games.html">&larr; Back to Games</a>
+
+      <header class="publish-head">
+        <h1>Publish Your Game</h1>
+        <p>Fill in all required fields to submit your project for moderation. Make sure your game meets the requirements before submitting.</p>
+      </header>
+
+      <form class="publish-form" id="publish-form" action="#" method="post">
+        <section class="form-section">
+          <h2>Basic Information</h2>
+
+          <label for="game-title">Game Title</label>
+          <input id="game-title" type="text" name="title" placeholder="Enter your game title" maxlength="100" required>
+
+          <label for="game-desc">Description</label>
+          <textarea id="game-desc" name="description" placeholder="Describe your game, its genre, features, and what makes it unique..." rows="5" maxlength="1000" required></textarea>
+          <small class="char-count" id="desc-count">0 / 1000</small>
+
+          <label for="game-genre">Genre</label>
+          <select id="game-genre" name="genre" required>
+            <option value="" disabled selected>Select a genre</option>
+            <option value="action">Action</option>
+            <option value="rpg">RPG</option>
+            <option value="strategy">Strategy</option>
+            <option value="adventure">Adventure</option>
+            <option value="simulation">Simulation</option>
+            <option value="puzzle">Puzzle</option>
+            <option value="platformer">Platformer</option>
+            <option value="horror">Horror</option>
+            <option value="racing">Racing</option>
+            <option value="sports">Sports</option>
+            <option value="other">Other</option>
+          </select>
+        </section>
+
+        <section class="form-section">
+          <h2>Files &amp; Media</h2>
+
+          <label for="game-archive">Game Archive (ZIP / RAR)</label>
+          <input id="game-archive" type="file" name="archive" accept=".zip,.rar,.7z" required>
+          <small class="file-hint">Max archive size: 10 GB</small>
+
+          <label for="game-thumb">Cover Image</label>
+          <input id="game-thumb" type="file" name="thumbnail" accept="image/*" required>
+          <small class="file-hint">Recommended: 16:9 ratio, PNG or JPG</small>
+
+          <label for="game-screenshots">Screenshots (up to 5)</label>
+          <input id="game-screenshots" type="file" name="screenshots" accept="image/*" multiple>
+          <small class="file-hint">Upload 2-5 screenshots of your game</small>
+        </section>
+
+        <section class="form-section">
+          <h2>System Requirements</h2>
+
+          <h3>Minimum Requirements</h3>
+
+          <label for="min-os">OS</label>
+          <input id="min-os" type="text" name="min_os" placeholder="e.g. Windows 10 64-bit" required>
+
+          <label for="min-cpu">Processor</label>
+          <input id="min-cpu" type="text" name="min_cpu" placeholder="e.g. Intel i5-8400 / AMD Ryzen 5 2600" required>
+
+          <label for="min-ram">RAM</label>
+          <input id="min-ram" type="text" name="min_ram" placeholder="e.g. 8 GB" required>
+
+          <label for="min-gpu">Graphics Card</label>
+          <input id="min-gpu" type="text" name="min_gpu" placeholder="e.g. GTX 1060 / RX 580" required>
+
+          <label for="min-storage">Storage</label>
+          <input id="min-storage" type="text" name="min_storage" placeholder="e.g. 10 GB available space" required>
+
+          <label for="min-additional">Additional Notes</label>
+          <textarea id="min-additional" name="min_additional" placeholder="DirectX version, network, etc." rows="2"></textarea>
+
+          <h3>Recommended Requirements</h3>
+
+          <label for="rec-os">OS</label>
+          <input id="rec-os" type="text" name="rec_os" placeholder="e.g. Windows 11 64-bit">
+
+          <label for="rec-cpu">Processor</label>
+          <input id="rec-cpu" type="text" name="rec_cpu" placeholder="e.g. Intel i7-10700 / AMD Ryzen 7 5800X">
+
+          <label for="rec-ram">RAM</label>
+          <input id="rec-ram" type="text" name="rec_ram" placeholder="e.g. 16 GB">
+
+          <label for="rec-gpu">Graphics Card</label>
+          <input id="rec-gpu" type="text" name="rec_gpu" placeholder="e.g. RTX 3060 / RX 6700 XT">
+
+          <label for="rec-storage">Storage</label>
+          <input id="rec-storage" type="text" name="rec_storage" placeholder="e.g. 10 GB SSD">
+
+          <label for="rec-additional">Additional Notes</label>
+          <textarea id="rec-additional" name="rec_additional" placeholder="DirectX version, network, etc." rows="2"></textarea>
+        </section>
+
+        <section class="form-section">
+          <h2>Additional Information</h2>
+
+          <label for="game-engine">Game Engine</label>
+          <input id="game-engine" type="text" name="engine" placeholder="e.g. Unreal Engine 5, Unity, Godot">
+
+          <label for="game-link">Project / Store Link (optional)</label>
+          <input id="game-link" type="url" name="link" placeholder="https://...">
+
+          <label for="game-video">Trailer Video URL (optional)</label>
+          <input id="game-video" type="url" name="video" placeholder="https://youtube.com/...">
+
+          <label class="checkbox-label publish-consent">
+            <input type="checkbox" name="rules-agree" id="rules-agree" required>
+            <span>I confirm that this game follows <a href="#" class="policy-link">community rules</a> and does not contain prohibited content</span>
+          </label>
+        </section>
+
+        <button class="btn btn-submit" type="submit">Submit for Moderation</button>
+        <p class="form-feedback" id="publish-feedback" aria-live="polite"></p>
+      </form>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <p class="footer-copy">© 2026 GameLab. All rights reserved.</p>
+      <nav class="footer-links" aria-label="Footer navigation">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+        <a href="#">Support</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script src="i18n.js"></script>
+  <script src="publish.js"></script>
+</body>
+</html>
