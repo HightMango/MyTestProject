@@ -48,27 +48,12 @@
 
   <main class="forum-page">
     <section class="forum-layout">
-      <!-- Онлайн-пользователи -->
       <aside class="forum-sidebar" aria-label="Online users">
         <h2>Online Users</h2>
-        <div class="online-list">
-          <div class="online-item">
-            <span class="online-dot"></span>
-            <span class="online-name">PlayerOne</span>
-          </div>
-          <div class="online-item">
-            <span class="online-dot"></span>
-            <span class="online-name">DevMaster</span>
-          </div>
-          <div class="online-item">
-            <span class="online-dot"></span>
-            <span class="online-name">PixelArtist</span>
-          </div>
-        </div>
-        <p class="online-count">3 users online</p>
+        <div class="online-list" id="online-list"></div>
+        <p class="online-count" id="online-count">0 users online</p>
       </aside>
 
-      <!-- Общий чат -->
       <section class="forum-main" aria-label="General chat">
         <div class="chat-header">
           <h2>General Chat</h2>
@@ -78,26 +63,36 @@
           </span>
         </div>
 
-        <div class="chat-messages" id="chat-messages">
-          <div class="message">
-            <span class="msg-author">PlayerOne</span>
-            <span class="msg-time">14:32</span>
-            <p class="msg-text">Hey everyone! Anyone working on a new project?</p>
-          </div>
-          <div class="message">
-            <span class="msg-author">DevMaster</span>
-            <span class="msg-time">14:35</span>
-            <p class="msg-text">Just started a cyberpunk RPG in Unreal Engine 5!</p>
-          </div>
-          <div class="message">
-            <span class="msg-author">PixelArtist</span>
-            <span class="msg-time">14:38</span>
-            <p class="msg-text">Nice! I'm working on some pixel art assets for a platformer.</p>
-          </div>
-        </div>
+        <div class="chat-pinned" id="chat-pinned" hidden></div>
+
+        <div class="chat-messages" id="chat-messages"></div>
+
+        <p class="chat-auth-hint" id="chat-auth-hint" hidden>
+          <a href="auth.html">Sign in</a> to send messages.
+        </p>
 
         <form class="chat-input-form" id="chat-form">
-          <input type="text" class="chat-input" id="chat-input" placeholder="Type a message..." maxlength="500" autocomplete="off">
+          <div class="chat-input-wrap">
+            <div class="chat-input-row">
+              <button
+                type="button"
+                class="emoji-toggle"
+                id="emoji-toggle"
+                aria-label="Insert emoji"
+                aria-expanded="false"
+                aria-controls="emoji-panel"
+              >😊</button>
+              <input
+                type="text"
+                class="chat-input"
+                id="chat-input"
+                placeholder="Type a message..."
+                maxlength="500"
+                autocomplete="off"
+              >
+            </div>
+            <div class="emoji-panel" id="emoji-panel" role="menu" aria-label="Emoji picker" hidden></div>
+          </div>
           <button class="btn btn-send" type="submit">Send</button>
         </form>
       </section>

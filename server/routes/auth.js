@@ -8,10 +8,20 @@ const router = express.Router();
 
 function createToken(user) {
   return jwt.sign(
-    { email: user.email },
+    { email: user.email, username: user.username },
     process.env.JWT_SECRET,
     { subject: String(user.id), expiresIn: "7d" }
   );
+}
+
+function userResponse(user) {
+  return {
+    id: user.id,
+    email: user.email,
+    username: user.username,
+    created_at: user.created_at,
+    role: user.role || "user"
+  };
 }
 
 router.post("/register", async (req, res) => {
@@ -35,19 +45,19 @@ router.post("/register", async (req, res) => {
 
   const passwordHash = await bcrypt.hash(password, 10);
   const inserted = await run(
-    "INSERT INTO users (email, username, password_hash) VALUES (?, ?, ?)",
+    "INSERT INTO users (email, username, password_hash, role) VALUES (?, ?, ?, 'user')",
     [normalizedEmail, username.trim(), passwordHash]
   );
 
   await run("INSERT INTO profiles (user_id) VALUES (?)", [inserted.id]);
 
   const user = await get(
-    "SELECT id, email, username, created_at FROM users WHERE id = ?",
+    "SELECT id, email, username, role, created_at FROM users WHERE id = ?",
     [inserted.id]
   );
   const token = createToken(user);
 
-  return res.status(201).json({ token, user });
+  return res.status(201).json({ token, user: userResponse(user) });
 });
 
 router.post("/login", async (req, res) => {
@@ -58,7 +68,7 @@ router.post("/login", async (req, res) => {
 
   const normalizedEmail = email.trim().toLowerCase();
   const user = await get(
-    "SELECT id, email, username, password_hash, created_at FROM users WHERE email = ?",
+    "SELECT id, email, username, password_hash, role, created_at FROM users WHERE email = ?",
     [normalizedEmail]
   );
   if (!user) {
@@ -73,25 +83,20 @@ router.post("/login", async (req, res) => {
   const token = createToken(user);
   return res.json({
     token,
-    user: {
-      id: user.id,
-      email: user.email,
-      username: user.username,
-      created_at: user.created_at
-    }
+    user: userResponse(user)
   });
 });
 
 router.get("/me", authRequired, async (req, res) => {
   const user = await get(
-    "SELECT id, email, username, created_at FROM users WHERE id = ?",
+    "SELECT id, email, username, role, created_at FROM users WHERE id = ?",
     [req.user.id]
   );
   if (!user) {
     return res.status(404).json({ error: "User not found" });
   }
 
-  return res.json({ user });
+  return res.json({ user: userResponse(user) });
 });
 
 module.exports = router;

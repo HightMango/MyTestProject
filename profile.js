@@ -8,6 +8,27 @@ const bioCount = document.querySelector("#bio-count");
 const bioFeedback = document.querySelector("#bio-feedback");
 const recentList = document.querySelector("#recent-list");
 const logoutBtn = document.querySelector("#logout-btn");
+const moderatorToolsPanel = document.querySelector("#moderator-tools-panel");
+
+/** DEMO: same rule as forum.js — email contains «moderator» or role from API */
+function isModerator() {
+  try {
+    const raw = localStorage.getItem("gamelab_user");
+    if (!raw) return false;
+    const user = JSON.parse(raw);
+    const email = String(user.email || "").toLowerCase();
+    if (email.includes("moderator")) return true;
+    if (user.role === "moderator") return true;
+    return false;
+  } catch {
+    return false;
+  }
+}
+
+function updateModeratorToolsVisibility() {
+  if (!moderatorToolsPanel) return;
+  moderatorToolsPanel.hidden = !isModerator();
+}
 
 const ASSET_CATALOG = {
   "neon-city-streets-pack": {
@@ -203,6 +224,7 @@ async function loadProfile() {
   updateCounter();
 
   renderRecentViews(recentResponse.items || []);
+  updateModeratorToolsVisibility();
 }
 
 bioInput?.addEventListener("input", updateCounter);
@@ -232,6 +254,7 @@ loadProfile().catch((error) => {
   if (error.message !== "No token") {
     setFeedback(error.message, "error");
   }
+  updateModeratorToolsVisibility();
 });
 
 /* ===== Обработка настроек ===== */

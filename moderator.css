@@ -1,0 +1,119 @@
+.moderator-page {
+  min-height: calc(100vh - 74px);
+  padding: 24px;
+}
+
+.moderator-shell {
+  max-width: 880px;
+  margin: 0 auto;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 22px;
+  background: linear-gradient(180deg, #172552, #0f1630);
+  box-shadow: 0 12px 30px rgba(5, 8, 23, 0.45);
+  display: grid;
+  gap: 16px;
+}
+
+.moderator-shell .back-link {
+  color: #c3d1ff;
+  text-decoration: none;
+  font-size: 0.92rem;
+}
+
+.moderator-shell .back-link:hover {
+  color: #ffffff;
+}
+
+.moderator-head h1 {
+  margin: 8px 0 6px;
+  font-size: 1.5rem;
+}
+
+.moderator-sub {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.moderator-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.moderator-card {
+  border: 1px solid #2f3f76;
+  border-radius: 12px;
+  padding: 14px 16px;
+  background: linear-gradient(180deg, rgba(28, 40, 85, 0.85), rgba(17, 26, 58, 0.9));
+}
+
+.moderator-card-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.moderator-game-title {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.moderator-badge {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(87, 199, 255, 0.45);
+  color: var(--accent);
+}
+
+.moderator-meta {
+  margin: 0 0 12px;
+  display: grid;
+  gap: 8px;
+}
+
+.moderator-meta dt {
+  margin: 0;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+}
+
+.moderator-meta dd {
+  margin: 2px 0 0;
+  font-size: 0.95rem;
+}
+
+.moderator-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.moderator-actions .btn-secondary {
+  background: linear-gradient(90deg, #6d5cff, #9c66ff);
+}
+
+html[data-theme="light"] .moderator-shell,
+html[data-theme="light"] .moderator-card {
+  background: #ffffff;
+  border-color: var(--line);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+html[data-theme="light"] .moderator-shell .back-link {
+  color: #4b5563;
+}
+
+html[data-theme="light"] .moderator-sub {
+  color: #6b7280;
+}

@@ -77,6 +77,18 @@ body {
   margin: 6px 0;
 }
 
+.moderator-tools-note {
+  font-size: 0.88rem;
+  color: var(--muted);
+  margin-bottom: 12px !important;
+}
+
+.moderator-tools-link {
+  display: inline-block;
+  text-decoration: none;
+  text-align: center;
+}
+
 .bio-form {
   display: grid;
   gap: 8px;

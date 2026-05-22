@@ -40,6 +40,14 @@ function all(sql, params = []) {
   });
 }
 
+async function ensureUsersRoleColumn() {
+  const columns = await all("PRAGMA table_info(users)");
+  const hasRole = columns.some((col) => col.name === "role");
+  if (!hasRole) {
+    await run("ALTER TABLE users ADD COLUMN role TEXT NOT NULL DEFAULT 'user'");
+  }
+}
+
 async function initDb() {
   await run(`
     CREATE TABLE IF NOT EXISTS users (
@@ -47,9 +55,12 @@ async function initDb() {
       email TEXT NOT NULL UNIQUE,
       username TEXT NOT NULL,
       password_hash TEXT NOT NULL,
+      role TEXT NOT NULL DEFAULT 'user',
       created_at TEXT NOT NULL DEFAULT (datetime('now'))
     )
   `);
+
+  await ensureUsersRoleColumn();
 
   await run(`
     CREATE TABLE IF NOT EXISTS profiles (
