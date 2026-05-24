@@ -1,0 +1,18 @@
+Перед уходом (остановка)
+В терминале backend нажми Ctrl + C
+Если появится Terminate batch job (Y/N)? → Y
+В терминале frontend (serve) тоже Ctrl + C
+Убедись, что в обоих окнах снова PS ...> — значит всё остановлено
+После возвращения (запуск)
+1) Backend
+
+cd D:\Project1\CursorProject\GameLab\server
+& "C:\Program Files\nodejs\npm.cmd" run dev
+
+2) Frontend (в отдельном терминале)
+cd D:\Project1\CursorProject\GameLab
+npx serve . -l 5500
+Если порт занят (EADDRINUSE)
+netstat -ano | findstr :4000
+taskkill /PID <PID> /F
+(для фронта аналогично с :5500)

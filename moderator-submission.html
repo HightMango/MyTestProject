@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GameLab - Review Submission</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="game-detail.css">
+  <link rel="stylesheet" href="profile.css">
+</head>
+<body>
+  <header class="hero">
+    <div class="hero-content">
+      <div class="brand-group">
+        <a class="brand" href="index.html" aria-label="Go to main page">
+          <div class="logo" aria-label="GameLab logo">
+            <span class="logo-g">G</span>
+            <span class="logo-shape"></span>
+          </div>
+          <div>
+            <h1>GameLab</h1>
+            <p>Premium assets for indie and AAA game projects.</p>
+          </div>
+        </a>
+      </div>
+
+      <form class="search-wrap" role="search" aria-label="Search assets" action="index.html" method="get">
+        <span class="search-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none">
+            <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"></circle>
+            <path d="M16.5 16.5L21 21" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+          </svg>
+        </span>
+        <input class="search-input" type="search" name="search" placeholder="Search assets, tools, categories..." aria-label="Search assets by name or category">
+        <button class="search-btn" type="submit">Search</button>
+      </form>
+
+      <nav class="top-nav" aria-label="Main navigation">
+        <a class="btn btn-nav" href="games.html">Games</a>
+        <a class="btn btn-nav" href="forum.html">Forum</a>
+        <a class="btn btn-nav" href="study.html">Study materials</a>
+      </nav>
+
+      <a class="account-link" href="profile.html" aria-label="Open account">
+        <span class="account-icon" aria-hidden="true"></span>
+      </a>
+    </div>
+  </header>
+
+  <main class="game-detail-page">
+    <a class="back-link" href="profile.html">&larr; Back to profile</a>
+
+    <p class="feedback" id="submission-feedback" aria-live="polite"></p>
+
+    <section class="game-hero-card" id="submission-card" aria-live="polite">
+      <div class="game-media-wrap">
+        <img class="game-detail-image" id="submission-cover" src="" alt="Submission cover" hidden>
+      </div>
+      <div class="game-main-info">
+        <span class="game-badge" id="submission-genre">Genre</span>
+        <h2 id="submission-title">Loading submission...</h2>
+        <p class="submission-author" id="submission-author"></p>
+        <p class="game-full-description" id="submission-description"></p>
+
+        <div class="game-meta-grid">
+          <div class="meta-item"><strong>Engine:</strong> <span id="submission-engine"></span></div>
+          <div class="meta-item"><strong>Project link:</strong> <span id="submission-link"></span></div>
+          <div class="meta-item"><strong>Trailer:</strong> <span id="submission-video"></span></div>
+          <div class="meta-item"><strong>Archive size:</strong> <span id="submission-archive-size"></span></div>
+          <div class="meta-item"><strong>Installed size:</strong> <span id="submission-installed-size"></span></div>
+          <div class="meta-item"><strong>Platform:</strong> <span id="submission-platform"></span></div>
+          <div class="meta-item"><strong>Multiplayer:</strong> <span id="submission-multiplayer"></span></div>
+          <div class="meta-item"><strong>Release date:</strong> <span id="submission-release"></span></div>
+          <div class="meta-item"><strong>Archive:</strong> <span id="submission-archive"></span></div>
+        </div>
+
+        <div class="moderation-actions">
+          <button type="button" class="btn btn-moderation btn-moderation-approve" id="btn-approve">Approve</button>
+          <button type="button" class="btn btn-moderation btn-moderation-reject" id="btn-reject">Reject</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="game-requirements" id="submission-requirements">
+      <h3>System Requirements</h3>
+      <div class="requirements-grid">
+        <div class="requirements-col">
+          <h4>Minimum</h4>
+          <ul class="req-list req-list-ul" id="req-minimum"></ul>
+        </div>
+        <div class="requirements-col">
+          <h4>Recommended</h4>
+          <ul class="req-list req-list-ul" id="req-recommended"></ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="game-screenshots" id="submission-screenshots-section">
+      <h3>Screenshots</h3>
+      <div class="screenshots-grid" id="screenshots-grid"></div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <p class="footer-copy">© 2026 GameLab. All rights reserved.</p>
+      <nav class="footer-links" aria-label="Footer navigation">
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="terms.html">Terms of Service</a>
+        <a href="#">Support</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script src="moderator-submission.js"></script>
+</body>
+</html>

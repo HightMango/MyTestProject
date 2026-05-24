@@ -8,26 +8,97 @@ const bioCount = document.querySelector("#bio-count");
 const bioFeedback = document.querySelector("#bio-feedback");
 const recentList = document.querySelector("#recent-list");
 const logoutBtn = document.querySelector("#logout-btn");
-const moderatorToolsPanel = document.querySelector("#moderator-tools-panel");
+const moderationPanel = document.querySelector("#moderation-panel");
+const moderationList = document.querySelector("#moderation-list");
+const moderationEmpty = document.querySelector("#moderation-empty");
+const moderationFeedback = document.querySelector("#moderation-feedback");
 
-/** DEMO: same rule as forum.js — email contains «moderator» or role from API */
-function isModerator() {
+function getStoredUser() {
   try {
     const raw = localStorage.getItem("gamelab_user");
-    if (!raw) return false;
-    const user = JSON.parse(raw);
-    const email = String(user.email || "").toLowerCase();
-    if (email.includes("moderator")) return true;
-    if (user.role === "moderator") return true;
-    return false;
+    return raw ? JSON.parse(raw) : null;
   } catch {
-    return false;
+    return null;
   }
 }
 
-function updateModeratorToolsVisibility() {
-  if (!moderatorToolsPanel) return;
-  moderatorToolsPanel.hidden = !isModerator();
+function isModerator() {
+  return getStoredUser()?.role === "moderator";
+}
+
+function updateModerationPanelVisibility() {
+  if (!moderationPanel) return;
+  moderationPanel.hidden = !isModerator();
+}
+
+function setModerationFeedback(message, type = "") {
+  if (!moderationFeedback) return;
+  moderationFeedback.textContent = message;
+  moderationFeedback.classList.remove("error", "success");
+  if (type) {
+    moderationFeedback.classList.add(type);
+  }
+}
+
+function submissionAuthor(row) {
+  return row.author_username || row.author_email || "Unknown";
+}
+
+function renderModerationSubmissions(rows) {
+  if (!moderationList || !moderationEmpty) return;
+
+  moderationList.innerHTML = "";
+  const items = Array.isArray(rows) ? rows : [];
+  moderationEmpty.hidden = items.length > 0;
+
+  items.forEach((row) => {
+    const item = document.createElement("article");
+    item.className = "moderation-item";
+    item.dataset.submissionId = String(row.id);
+
+    item.innerHTML = `
+      <div class="moderation-item-head">
+        <h3 class="moderation-item-title">${escapeHtml(row.title || "Untitled")}</h3>
+        <p class="moderation-item-meta"><strong>Author:</strong> ${escapeHtml(submissionAuthor(row))}</p>
+        <p class="moderation-item-meta"><strong>Date:</strong> ${escapeHtml(formatDate(row.created_at))}</p>
+      </div>
+      <div class="moderation-item-actions">
+        <button type="button" class="btn btn-moderation btn-moderation-view" data-action="view">View</button>
+      </div>
+    `;
+
+    item.querySelector('[data-action="view"]')?.addEventListener("click", () => {
+      viewSubmission(row.id);
+    });
+
+    moderationList.appendChild(item);
+  });
+}
+
+function escapeHtml(value) {
+  return String(value)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
+async function loadModerationSubmissions() {
+  if (!isModerator()) return;
+
+  setModerationFeedback("Loading submissions...");
+  try {
+    const rows = await request("/games/moderator/submissions");
+    renderModerationSubmissions(rows);
+    setModerationFeedback("");
+  } catch (error) {
+    setModerationFeedback(error.message, "error");
+    renderModerationSubmissions([]);
+  }
+}
+
+function viewSubmission(id) {
+  window.location.href = `moderator-submission.html?id=${id}`;
 }
 
 const ASSET_CATALOG = {
@@ -224,7 +295,10 @@ async function loadProfile() {
   updateCounter();
 
   renderRecentViews(recentResponse.items || []);
-  updateModeratorToolsVisibility();
+  updateModerationPanelVisibility();
+  if (isModerator()) {
+    await loadModerationSubmissions();
+  }
 }
 
 bioInput?.addEventListener("input", updateCounter);
@@ -254,7 +328,7 @@ loadProfile().catch((error) => {
   if (error.message !== "No token") {
     setFeedback(error.message, "error");
   }
-  updateModeratorToolsVisibility();
+  updateModerationPanelVisibility();
 });
 
 /* ===== Обработка настроек ===== */

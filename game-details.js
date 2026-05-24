@@ -1,7 +1,42 @@
-// Game details page script
-const params = new URLSearchParams(window.location.search);
-const gameId = params.get("game") || "";
+const API_BASE = "http://localhost:4000/api";
+const API_ORIGIN = "http://localhost:4000";
 
+const params = new URLSearchParams(window.location.search);
+const gameSlug = params.get("game") || "";
+
+let loadedGame = null;
+let currentUser = null;
+let userRating = null;
+let commentFormRating = null;
+let ratingSubmitting = false;
+
+const RATING_LABELS = ["Poor", "Fair", "Good", "Very Good", "Excellent!"];
+
+async function getCurrentUser() {
+  const token = localStorage.getItem("gamelab_token");
+  if (!token) return null;
+  try {
+    const res = await fetch(`${API_BASE}/auth/me`, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+    if (!res.ok) return null;
+    const data = await res.json();
+    return data.user;
+  } catch {
+    return null;
+  }
+}
+
+function getAuthToken() {
+  return localStorage.getItem("gamelab_token");
+}
+
+function authHeaders() {
+  const token = getAuthToken();
+  return token ? { Authorization: `Bearer ${token}` } : {};
+}
+
+const gameCardEl = document.getElementById("game-card");
 const gameTitleEl = document.getElementById("game-title");
 const gameGenreEl = document.getElementById("game-genre");
 const gameImageEl = document.getElementById("game-image");
@@ -17,341 +52,825 @@ const gameMultiplayerEl = document.getElementById("game-multiplayer");
 const gameFeaturesEl = document.getElementById("game-features");
 const reqMinimumEl = document.getElementById("req-minimum");
 const reqRecommendedEl = document.getElementById("req-recommended");
+const screenshotsGridEl = document.getElementById("screenshots-grid");
+const gameDownloadEl = document.getElementById("game-download");
 const ratingValueEl = document.getElementById("rating-value");
 const ratingVotesEl = document.getElementById("rating-votes");
+const starsStaticEl = document.getElementById("stars-static");
+const ratingBarsEl = document.getElementById("rating-bars");
+const starsSelectEl = document.getElementById("stars-select");
+const ratingLabelEl = document.getElementById("rating-label");
+const ratingHintEl = document.getElementById("rating-hint");
+const commentFormEl = document.getElementById("comment-form");
+const commentInputEl = document.getElementById("comment-input");
+const commentSubmitBtnEl = document.getElementById("comment-submit-btn");
+const commentsListEl = document.getElementById("comments-list");
+const commentsEmptyEl = document.getElementById("comments-empty");
+const commentsHintEl = document.getElementById("comments-hint");
+const commentStarsSelectEl = document.getElementById("comment-stars-select");
+const commentRatingClearEl = document.getElementById("comment-rating-clear");
+const gameNoticeEl = document.getElementById("game-notice");
 
-// Mock data for games (visual only)
-const gamesData = {
-  "cyber-odyssey": {
-    title: "Cyber Odyssey",
-    genre: "RPG / Open World",
-    image: "https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=900&q=80",
-    intro: "An open-world cyberpunk RPG with branching storylines and dynamic combat.",
-    fullDescription: "Dive into the neon-lit streets of Neo Tokyo in this immersive cyberpunk RPG. Cyber Odyssey offers a rich narrative experience with deep character customization, branching questlines, and a dynamic combat system that adapts to your playstyle. Explore a sprawling open world filled with hidden secrets, corporate conspiracies, and unforgettable characters. Every choice you matter, and every path leads to a unique destiny.",
-    developer: "NeonForge Studios",
-    rating: 4.7,
-    release: "March 15, 2026",
-    archiveSize: "2.4 GB",
-    installedSize: "4.1 GB",
-    platform: "Windows / macOS / Linux",
-    multiplayer: "No",
-    requirements: {
-      minimum: {
-        os: "Windows 10 64-bit",
-        cpu: "Intel i5-8400 / AMD Ryzen 5 2600",
-        ram: "8 GB",
-        gpu: "GTX 1060 / RX 580",
-        storage: "10 GB"
-      },
-      recommended: {
-        os: "Windows 11 64-bit",
-        cpu: "Intel i7-10700 / AMD Ryzen 7 5800X",
-        ram: "16 GB",
-        gpu: "RTX 3060 / RX 6700 XT",
-        storage: "10 GB SSD"
-      }
-    },
-    features: [
-      "Over 60 hours of main story content",
-      "Dynamic combat system with 5 weapon types",
-      "Branching narrative with 12 unique endings",
-      "Full character customization and skill trees",
-      "Original synthwave soundtrack with 45 tracks"
-    ]
-  },
-  "kingdoms-ash": {
-    title: "Kingdoms of Ash",
-    genre: "Strategy / Medieval",
-    image: "https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=900&q=80",
-    intro: "Medieval strategy game with base building and large-scale battles.",
-    fullDescription: "Command your kingdom through ages of conquest and diplomacy. Build mighty fortresses, train legendary armies, and forge alliances in this epic medieval strategy game. With procedurally generated campaigns and real-time tactical battles, every playthrough offers fresh challenges. Will you rule with honor or conquer all through fire and steel?",
-    developer: "Iron Crown Games",
-    rating: 4.5,
-    release: "January 22, 2026",
-    archiveSize: "1.8 GB",
-    installedSize: "3.2 GB",
-    platform: "Windows",
-    multiplayer: "Yes (up to 8 players)",
-    requirements: {
-      minimum: {
-        os: "Windows 10 64-bit",
-        cpu: "Intel i5-9400 / AMD Ryzen 5 3600",
-        ram: "8 GB",
-        gpu: "GTX 1650 / RX 5500 XT",
-        storage: "8 GB"
-      },
-      recommended: {
-        os: "Windows 11 64-bit",
-        cpu: "Intel i7-11700 / AMD Ryzen 7 5800X",
-        ram: "16 GB",
-        gpu: "RTX 3070 / RX 6800",
-        storage: "8 GB SSD"
-      }
-    },
-    features: [
-      "Procedurally generated campaigns",
-      "Real-time tactical battles with 1000+ units",
-      "Deep diplomacy and alliance system",
-      "4 unique factions with special abilities",
-      "Mod support and custom scenario editor"
-    ]
-  },
-  "neon-drift": {
-    title: "Neon Drift",
-    genre: "Racing / Arcade",
-    image: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=900&q=80",
-    intro: "Arcade racing game with synthwave soundtrack and drifting mechanics.",
-    fullDescription: "Feel the rush of high-speed racing through neon-lit cityscapes. Neon Drift combines tight drifting mechanics with an incredible synthwave soundtrack to create an unforgettable racing experience. Master 20 unique tracks, customize your ride, and climb the global leaderboards in this love letter to 80s arcade racers.",
-    developer: "RetroVelocity",
-    rating: 4.3,
-    release: "February 8, 2026",
-    archiveSize: "890 MB",
-    installedSize: "1.5 GB",
-    platform: "Windows / macOS",
-    multiplayer: "Yes (up to 4 players local)",
-    requirements: {
-      minimum: {
-        os: "Windows 10 64-bit",
-        cpu: "Intel i3-8100 / AMD Ryzen 3 3100",
-        ram: "4 GB",
-        gpu: "GTX 1050 Ti / RX 560",
-        storage: "3 GB"
-      },
-      recommended: {
-        os: "Windows 11 64-bit",
-        cpu: "Intel i5-10400 / AMD Ryzen 5 5600X",
-        ram: "8 GB",
-        gpu: "GTX 1660 / RX 5600 XT",
-        storage: "3 GB SSD"
-      }
-    },
-    features: [
-      "20 unique tracks across 5 environments",
-      "Deep car customization system",
-      "Original synthwave soundtrack (30 tracks)",
-      "Global leaderboards and weekly challenges",
-      "Smooth 60 FPS gameplay"
-    ]
-  },
-  "starbound-survivors": {
-    title: "Starbound Survivors",
-    genre: "Survival / Space",
-    image: "https://images.unsplash.com/photo-1493711662062-fa541adb3fc8?auto=format&fit=crop&w=900&q=80",
-    intro: "Space survival with crafting, exploration, and multiplayer support.",
-    fullDescription: "Stranded in an uncharted star system, survival is just the beginning. Explore procedurally generated planets, gather resources, craft advanced technology, and build your base among the stars. With seamless multiplayer co-op, you can team up with friends to face alien threats, discover ancient artifacts, and uncover the mysteries of the cosmos.",
-    developer: "Cosmic Forge Interactive",
-    rating: 4.9,
-    release: "April 1, 2026",
-    archiveSize: "3.1 GB",
-    installedSize: "5.6 GB",
-    platform: "Windows / macOS / Linux",
-    multiplayer: "Yes (up to 6 players co-op)",
-    requirements: {
-      minimum: {
-        os: "Windows 10 64-bit",
-        cpu: "Intel i5-8400 / AMD Ryzen 5 2600",
-        ram: "8 GB",
-        gpu: "GTX 1060 / RX 580",
-        storage: "12 GB"
-      },
-      recommended: {
-        os: "Windows 11 64-bit",
-        cpu: "Intel i7-11700 / AMD Ryzen 7 5800X",
-        ram: "16 GB",
-        gpu: "RTX 3060 Ti / RX 6800 XT",
-        storage: "12 GB SSD"
-      }
-    },
-    features: [
-      "Procedurally generated planets with unique biomes",
-      "Deep crafting system with 200+ items",
-      "Seamless multiplayer co-op",
-      "Dynamic weather and environmental hazards",
-      "Story-driven campaign with 40+ hours of content"
-    ]
-  },
-  "pixel-dungeon-quest": {
-    title: "Pixel Dungeon Quest",
-    genre: "Roguelike / Retro",
-    image: "https://images.unsplash.com/photo-1535223289827-42f1e9919769?auto=format&fit=crop&w=900&q=80",
-    intro: "Retro-style roguelike dungeon crawler with procedural level generation.",
-    fullDescription: "Descend into the ever-changing depths of the Pixel Dungeon in this addictive roguelike adventure. With procedurally generated levels, permadeath, and hundreds of unique items to discover, no two runs are the same. Master 8 character classes, battle fierce bosses, and unlock secret rooms in this love letter to classic dungeon crawlers.",
-    developer: "8-Bit Adventures",
-    rating: 4.6,
-    release: "December 10, 2025",
-    archiveSize: "420 MB",
-    installedSize: "780 MB",
-    platform: "Windows / macOS / Linux / Mobile",
-    multiplayer: "No",
-    requirements: {
-      minimum: {
-        os: "Windows 10 64-bit",
-        cpu: "Intel i3-6100 / AMD FX-6300",
-        ram: "4 GB",
-        gpu: "GTX 750 Ti / RX 460",
-        storage: "2 GB"
-      },
-      recommended: {
-        os: "Windows 11 64-bit",
-        cpu: "Intel i5-8400 / AMD Ryzen 5 3600",
-        ram: "8 GB",
-        gpu: "GTX 1060 / RX 580",
-        storage: "2 GB SSD"
-      }
-    },
-    features: [
-      "Procedurally generated dungeons with 50+ levels",
-      "8 unique character classes",
-      "200+ items and equipment pieces",
-      "12 challenging boss encounters",
-      "Daily challenges and seasonal events"
-    ]
-  },
-  "shadow-protocol": {
-    title: "Shadow Protocol",
-    genre: "Stealth-Action / Tactical",
-    image: "https://images.unsplash.com/photo-1614294148960-9aa740632a87?auto=format&fit=crop&w=900&q=80",
-    intro: "Stealth-action tactical shooter with cooperative campaign.",
-    fullDescription: "In a world of covert operations and high-stakes missions, Shadow Protocol puts you in command of an elite black-ops team. Plan your approach, execute precision strikes, and adapt to dynamic objectives in this tactical stealth-action game. The cooperative campaign supports up to 4 players, allowing you to coordinate complex multi-pronged assaults or slip through enemy lines undetected.",
-    developer: "Phantom Division Studios",
-    rating: 4.4,
-    release: "February 28, 2026",
-    archiveSize: "5.2 GB",
-    installedSize: "9.8 GB",
-    platform: "Windows",
-    multiplayer: "Yes (up to 4 players co-op)",
-    requirements: {
-      minimum: {
-        os: "Windows 10 64-bit",
-        cpu: "Intel i5-8400 / AMD Ryzen 5 2600",
-        ram: "8 GB",
-        gpu: "GTX 1060 / RX 590",
-        storage: "15 GB"
-      },
-      recommended: {
-        os: "Windows 11 64-bit",
-        cpu: "Intel i7-10700 / AMD Ryzen 7 5800X",
-        ram: "16 GB",
-        gpu: "RTX 3070 / RX 6800 XT",
-        storage: "15 GB SSD"
-      }
-    },
-    features: [
-      "Cooperative campaign for 1-4 players",
-      "Dynamic mission objectives and enemy AI",
-      "Deep stealth and infiltration mechanics",
-      "30+ weapons with customization options",
-      "Multiple difficulty modes for all skill levels"
-    ]
-  }
+const optionalSectionSelectors = [
+  "#game-requirements",
+  ".game-screenshots",
+  ".game-rating-section",
+  ".game-comments-section"
+];
+
+const REQ_LABELS = {
+  os: "OS",
+  cpu: "CPU",
+  ram: "RAM",
+  gpu: "GPU",
+  storage: "Storage",
+  additional: "Additional"
 };
 
-function renderGame() {
-  // Default to first game if no ID provided (visual demo)
-  const game = gamesData[gameId] || gamesData["cyber-odyssey"];
+function escapeHtml(text) {
+  return String(text)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
 
-  if (!game) {
-    gameTitleEl.textContent = "Game not found";
-    gameIntroEl.textContent = "The link may be outdated. Please return to the games page and try again.";
-    gameFullDescEl.textContent = "";
+function mediaUrl(path) {
+  if (!path) {
+    return "";
+  }
+  if (path.startsWith("http://") || path.startsWith("https://")) {
+    return path;
+  }
+  return `${API_ORIGIN}${path}`;
+}
+
+function metaValue(value) {
+  const text = typeof value === "string" ? value.trim() : "";
+  return text || "—";
+}
+
+function shortDescription(text, maxLen = 200) {
+  const value = typeof text === "string" ? text.trim() : "";
+  if (!value) {
+    return "";
+  }
+  if (value.length <= maxLen) {
+    return value;
+  }
+  return `${value.slice(0, maxLen).trimEnd()}…`;
+}
+
+function formatRatingDisplay(avg, count) {
+  const rating = Number(avg);
+  if (!Number.isFinite(rating) || rating <= 0) {
+    return "New";
+  }
+  return `${rating.toFixed(1)} / 5`;
+}
+
+function formatVotes(count) {
+  const votes = Number(count);
+  if (!Number.isFinite(votes) || votes <= 0) {
+    return "0 votes";
+  }
+  return votes === 1 ? "1 vote" : `${votes} votes`;
+}
+
+function formatReleaseDate(value) {
+  if (!value) {
+    return "—";
+  }
+  const parsed = new Date(value);
+  if (Number.isNaN(parsed.getTime())) {
+    return value;
+  }
+  return parsed.toLocaleDateString(undefined, {
+    year: "numeric",
+    month: "long",
+    day: "numeric"
+  });
+}
+
+function formatCommentDate(value) {
+  if (!value) {
+    return "";
+  }
+  const parsed = new Date(value);
+  if (Number.isNaN(parsed.getTime())) {
+    return value;
+  }
+  return parsed.toLocaleString(undefined, {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit"
+  });
+}
+
+function starsHtml(rating) {
+  const value = Number(rating);
+  if (!Number.isFinite(value) || value < 1) {
+    return "";
+  }
+  const filled = Math.round(value);
+  return "★".repeat(filled) + "☆".repeat(5 - filled);
+}
+
+function staticStarsFromAvg(avg) {
+  const value = Number(avg);
+  if (!Number.isFinite(value) || value <= 0) {
+    return "☆☆☆☆☆";
+  }
+  const full = Math.min(5, Math.round(value));
+  return "★".repeat(full) + "☆".repeat(5 - full);
+}
+
+function showNotice(message, isError = false) {
+  if (!gameNoticeEl) {
+    if (isError) {
+      alert(message);
+    }
     return;
   }
+  gameNoticeEl.textContent = message;
+  gameNoticeEl.hidden = false;
+  gameNoticeEl.classList.toggle("is-error", isError);
+  window.clearTimeout(showNotice._timer);
+  showNotice._timer = window.setTimeout(() => {
+    gameNoticeEl.hidden = true;
+  }, 4000);
+}
 
-  gameGenreEl.textContent = game.genre;
-  gameTitleEl.textContent = game.title;
-  gameImageEl.src = game.image;
-  gameImageEl.alt = `${game.title} preview`;
-  gameIntroEl.textContent = game.intro;
-  gameFullDescEl.textContent = game.fullDescription;
-  gameDeveloperEl.textContent = game.developer;
-  gameRatingEl.textContent = `${game.rating.toFixed(1)} / 5`;
-  gameReleaseEl.textContent = game.release;
-  gameArchiveSizeEl.textContent = game.archiveSize;
-  gameInstalledSizeEl.textContent = game.installedSize;
-  gamePlatformEl.textContent = game.platform;
-  gameMultiplayerEl.textContent = game.multiplayer;
-  ratingValueEl.textContent = game.rating.toFixed(1);
-  ratingVotesEl.textContent = "0 votes";
+function hasRequirements(req) {
+  if (!req || typeof req !== "object") {
+    return false;
+  }
+  return Object.values(req).some((value) => typeof value === "string" && value.trim());
+}
 
-  // Render features
-  gameFeaturesEl.innerHTML = "";
-  game.features.forEach((feature) => {
-    const li = document.createElement("li");
-    li.textContent = feature;
-    gameFeaturesEl.appendChild(li);
-  });
-
-  // Render system requirements
-  if (game.requirements) {
-    renderRequirements(reqMinimumEl, game.requirements.minimum);
-    renderRequirements(reqRecommendedEl, game.requirements.recommended);
+function setOptionalSectionsVisible(visible) {
+  for (const selector of optionalSectionSelectors) {
+    const section = document.querySelector(selector);
+    if (section) {
+      section.hidden = !visible;
+    }
   }
 }
 
+function showNotFound(message) {
+  setOptionalSectionsVisible(false);
+
+  if (gameCardEl) {
+    gameCardEl.innerHTML = `
+      <p class="game-not-found">${escapeHtml(message)}</p>
+      <p class="game-not-found-hint">
+        <a href="games.html">Return to the games catalog</a>
+      </p>
+    `;
+  }
+
+  document.title = "GameLab - Game not found";
+}
+
 function renderRequirements(container, req) {
-  if (!container || !req) return;
+  if (!container) {
+    return;
+  }
   container.innerHTML = "";
-  const labels = {
-    os: "OS",
-    cpu: "CPU",
-    ram: "RAM",
-    gpu: "GPU",
-    storage: "Storage"
-  };
+  if (!hasRequirements(req)) {
+    container.innerHTML = '<p class="req-empty">Not specified</p>';
+    return;
+  }
+
   for (const [key, value] of Object.entries(req)) {
+    const text = typeof value === "string" ? value.trim() : "";
+    if (!text) {
+      continue;
+    }
     const div = document.createElement("div");
     div.className = "req-item";
-    div.innerHTML = `<strong>${labels[key] || key}:</strong> <span>${value}</span>`;
+    div.innerHTML = `<strong>${escapeHtml(REQ_LABELS[key] || key)}:</strong> <span>${escapeHtml(text)}</span>`;
     container.appendChild(div);
   }
 }
 
-// Interactive star rating
-const starsSelect = document.getElementById("stars-select");
-const ratingLabel = document.getElementById("rating-label");
+function renderScreenshots(screenshots, title) {
+  if (!screenshotsGridEl) {
+    return;
+  }
 
-if (starsSelect) {
-  const stars = starsSelect.querySelectorAll(".star");
+  const list = Array.isArray(screenshots) ? screenshots.filter(Boolean) : [];
+  screenshotsGridEl.innerHTML = "";
 
-  stars.forEach((star) => {
-    star.addEventListener("click", () => {
-      const value = parseInt(star.getAttribute("data-value"));
-      
-      // Update active state
-      stars.forEach((s, index) => {
-        s.classList.toggle("active", index < value);
-      });
+  if (list.length === 0) {
+    const section = screenshotsGridEl.closest(".game-screenshots");
+    if (section) {
+      section.hidden = true;
+    }
+    return;
+  }
 
-      // Update label
-      const labels = [
-        "Poor",
-        "Fair",
-        "Good",
-        "Very Good",
-        "Excellent!"
-      ];
-      ratingLabel.textContent = labels[value - 1];
-    });
+  const section = screenshotsGridEl.closest(".game-screenshots");
+  if (section) {
+    section.hidden = false;
+  }
 
-    // Hover effect
-    star.addEventListener("mouseenter", () => {
-      const value = parseInt(star.getAttribute("data-value"));
-      stars.forEach((s, index) => {
-        s.style.color = index < value ? "#fbbf24" : "#3a4b85";
-      });
-    });
-  });
-
-  // Reset on mouse leave
-  starsSelect.addEventListener("mouseleave", () => {
-    stars.forEach((s) => {
-      const isActive = s.classList.contains("active");
-      s.style.color = isActive ? "#fbbf24" : "#3a4b85";
-    });
+  list.forEach((src, index) => {
+    const img = document.createElement("img");
+    img.src = mediaUrl(src);
+    img.alt = `${title} screenshot ${index + 1}`;
+    img.loading = "lazy";
+    screenshotsGridEl.appendChild(img);
   });
 }
 
-// Account link
+function setupDownloadButton(downloadUrl) {
+  if (!gameDownloadEl) {
+    return;
+  }
+
+  const href = mediaUrl(downloadUrl);
+  if (!href) {
+    gameDownloadEl.hidden = true;
+    return;
+  }
+
+  gameDownloadEl.href = href;
+  gameDownloadEl.hidden = false;
+}
+
+function updateRatingSummary(avg, count, distribution) {
+  const ratingAvg = Number(avg);
+  const ratingCount = Number(count);
+
+  if (gameRatingEl) {
+    gameRatingEl.textContent = formatRatingDisplay(ratingAvg, ratingCount);
+  }
+  if (ratingValueEl) {
+    ratingValueEl.textContent =
+      Number.isFinite(ratingAvg) && ratingAvg > 0 ? ratingAvg.toFixed(1) : "0.0";
+  }
+  if (ratingVotesEl) {
+    ratingVotesEl.textContent = formatVotes(ratingCount);
+  }
+  if (starsStaticEl) {
+    starsStaticEl.textContent = staticStarsFromAvg(ratingAvg);
+  }
+
+  if (ratingBarsEl && distribution) {
+    const total = Object.values(distribution).reduce((sum, n) => sum + Number(n), 0);
+    for (let star = 5; star >= 1; star -= 1) {
+      const row = ratingBarsEl.querySelector(`.bar-row[data-star="${star}"]`);
+      if (!row) {
+        continue;
+      }
+      const countForStar = Number(distribution[star]) || 0;
+      const pct = total > 0 ? Math.round((countForStar / total) * 100) : 0;
+      const fill = row.querySelector(".fill");
+      const pctEl = row.querySelector(".bar-pct");
+      if (fill) {
+        fill.style.width = `${pct}%`;
+      }
+      if (pctEl) {
+        pctEl.textContent = `${pct}%`;
+      }
+    }
+  }
+
+  if (loadedGame) {
+    loadedGame.rating_avg = ratingAvg;
+    loadedGame.rating_count = ratingCount;
+    if (distribution) {
+      loadedGame.rating_distribution = distribution;
+    }
+  }
+}
+
+function setStarsActive(container, value) {
+  if (!container) {
+    return;
+  }
+  const stars = container.querySelectorAll(".star");
+  stars.forEach((star) => {
+    const starValue = Number.parseInt(star.getAttribute("data-value"), 10);
+    const active = value != null && starValue <= value;
+    star.classList.toggle("active", active);
+    star.style.color = active ? "#fbbf24" : "#3a4b85";
+  });
+}
+
+function setupStarGroup(container, { onSelect, getValue }) {
+  if (!container) {
+    return;
+  }
+
+  const stars = container.querySelectorAll(".star");
+
+  stars.forEach((star) => {
+    star.addEventListener("click", () => {
+      const value = Number.parseInt(star.getAttribute("data-value"), 10);
+      if (onSelect) {
+        onSelect(value);
+      }
+    });
+
+    star.addEventListener("mouseenter", () => {
+      const value = Number.parseInt(star.getAttribute("data-value"), 10);
+      stars.forEach((s) => {
+        const starValue = Number.parseInt(s.getAttribute("data-value"), 10);
+        s.style.color = starValue <= value ? "#fbbf24" : "#3a4b85";
+      });
+    });
+
+    star.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        star.click();
+      }
+    });
+  });
+
+  container.addEventListener("mouseleave", () => {
+    const current = getValue ? getValue() : null;
+    setStarsActive(container, current);
+  });
+}
+
+function updateRatingLabel(value) {
+  if (!ratingLabelEl) {
+    return;
+  }
+  if (!value) {
+    ratingLabelEl.textContent = "Select your rating";
+    return;
+  }
+  ratingLabelEl.textContent = RATING_LABELS[value - 1] || "Thanks for rating!";
+}
+
+async function loadUserRating() {
+  if (!getAuthToken() || !gameSlug) {
+    userRating = null;
+    setStarsActive(starsSelectEl, null);
+    updateRatingLabel(null);
+    return;
+  }
+
+  try {
+    const res = await fetch(`${API_BASE}/games/${encodeURIComponent(gameSlug)}/my-rating`, {
+      headers: authHeaders()
+    });
+    if (!res.ok) {
+      userRating = null;
+      return;
+    }
+    const data = await res.json();
+    userRating = data.rating ?? null;
+    setStarsActive(starsSelectEl, userRating);
+    updateRatingLabel(userRating);
+  } catch {
+    userRating = null;
+  }
+}
+
+async function submitRating(value) {
+  if (!getAuthToken()) {
+    const goAuth = confirm("Sign in to rate this game. Open the login page?");
+    if (goAuth) {
+      window.location.href = "auth.html";
+    }
+    return;
+  }
+  if (!gameSlug || ratingSubmitting) {
+    return;
+  }
+
+  ratingSubmitting = true;
+  try {
+    const res = await fetch(`${API_BASE}/games/${encodeURIComponent(gameSlug)}/rate`, {
+      method: "POST",
+      headers: {
+        ...authHeaders(),
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ rating: value })
+    });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) {
+      throw new Error(data.error || "Failed to submit rating");
+    }
+
+    userRating = value;
+    setStarsActive(starsSelectEl, userRating);
+    updateRatingLabel(userRating);
+    updateRatingSummary(data.rating_avg, data.rating_count, data.distribution);
+    showNotice("Your rating has been saved.");
+  } catch (err) {
+    showNotice(err.message, true);
+  } finally {
+    ratingSubmitting = false;
+  }
+}
+
+function initStarRating() {
+  setupStarGroup(starsSelectEl, {
+    getValue: () => userRating,
+    onSelect: (value) => submitRating(value)
+  });
+
+  setupStarGroup(commentStarsSelectEl, {
+    getValue: () => commentFormRating,
+    onSelect: (value) => {
+      commentFormRating = value;
+      setStarsActive(commentStarsSelectEl, commentFormRating);
+      if (commentRatingClearEl) {
+        commentRatingClearEl.hidden = false;
+      }
+    }
+  });
+
+  if (commentRatingClearEl) {
+    commentRatingClearEl.addEventListener("click", () => {
+      commentFormRating = null;
+      setStarsActive(commentStarsSelectEl, null);
+      commentRatingClearEl.hidden = true;
+    });
+  }
+}
+
+function canDeleteComment(comment) {
+  if (!currentUser || !comment) {
+    return false;
+  }
+  const role = currentUser.role;
+  if (role === "moderator" || role === "admin") {
+    return true;
+  }
+  return comment.user_id === currentUser.id;
+}
+
+function renderComments(comments) {
+  if (!commentsListEl) {
+    return;
+  }
+
+  const list = Array.isArray(comments) ? comments : [];
+  commentsListEl.innerHTML = "";
+
+  if (list.length === 0) {
+    if (commentsEmptyEl) {
+      const empty = commentsEmptyEl.cloneNode(true);
+      commentsListEl.appendChild(empty);
+    } else {
+      commentsListEl.innerHTML = '<p class="comments-empty">No comments yet. Be the first!</p>';
+    }
+    return;
+  }
+
+  list.forEach((comment) => {
+    const article = document.createElement("article");
+    article.className = "comment-item";
+    article.dataset.commentId = String(comment.id);
+
+    const head = document.createElement("div");
+    head.className = "comment-head";
+
+    const author = document.createElement("strong");
+    author.textContent = comment.username || "User";
+
+    const date = document.createElement("span");
+    date.textContent = formatCommentDate(comment.created_at);
+
+    head.appendChild(author);
+    head.appendChild(date);
+
+    if (canDeleteComment(comment)) {
+      const deleteBtn = document.createElement("button");
+      deleteBtn.type = "button";
+      deleteBtn.className = "comment-delete-btn";
+      deleteBtn.title = "Delete comment";
+      deleteBtn.setAttribute("aria-label", "Delete comment");
+      deleteBtn.textContent = "🗑️";
+      deleteBtn.addEventListener("click", () => deleteComment(comment.id));
+      head.appendChild(deleteBtn);
+    }
+
+    article.appendChild(head);
+
+    if (comment.rating) {
+      const ratingEl = document.createElement("div");
+      ratingEl.className = "comment-rating";
+      ratingEl.textContent = starsHtml(comment.rating);
+      article.appendChild(ratingEl);
+    }
+
+    const body = document.createElement("p");
+    body.textContent = comment.content;
+    article.appendChild(body);
+
+    commentsListEl.appendChild(article);
+  });
+}
+
+async function loadComments() {
+  if (!gameSlug) {
+    return;
+  }
+
+  try {
+    const res = await fetch(`${API_BASE}/games/${encodeURIComponent(gameSlug)}/comments`);
+    const data = await res.json().catch(() => ([]));
+    if (!res.ok) {
+      throw new Error(data.error || "Failed to load comments");
+    }
+    console.log("Raw comments from server:", data);
+    renderComments(data);
+  } catch (err) {
+    if (commentsListEl) {
+      commentsListEl.innerHTML = `<p class="comments-empty">${escapeHtml(err.message)}</p>`;
+    }
+  }
+}
+
+async function deleteComment(commentId) {
+  if (!confirm("Delete this comment?")) {
+    return;
+  }
+
+  try {
+    const res = await fetch(`${API_BASE}/games/comments/${commentId}`, {
+      method: "DELETE",
+      headers: authHeaders()
+    });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) {
+      throw new Error(data.error || "Failed to delete comment");
+    }
+    showNotice("Comment deleted.");
+    await loadComments();
+  } catch (err) {
+    showNotice(err.message, true);
+  }
+}
+
+async function reloadGameRating() {
+  if (!gameSlug) {
+    return;
+  }
+  try {
+    const res = await fetch(`${API_BASE}/games/${encodeURIComponent(gameSlug)}`);
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) {
+      return;
+    }
+    updateRatingSummary(data.rating_avg, data.rating_count, data.rating_distribution);
+    await loadUserRating();
+  } catch {
+    /* ignore */
+  }
+}
+
+function setupCommentForm() {
+  if (!commentFormEl) {
+    return;
+  }
+
+  const isLoggedIn = Boolean(getAuthToken());
+
+  if (commentFormEl) {
+    commentFormEl.classList.toggle("is-disabled", !isLoggedIn);
+  }
+  if (commentSubmitBtnEl) {
+    commentSubmitBtnEl.disabled = !isLoggedIn;
+  }
+  if (commentsHintEl) {
+    commentsHintEl.textContent = isLoggedIn
+      ? "Share your experience about this game."
+      : "Sign in to leave a comment.";
+  }
+  if (ratingHintEl) {
+    ratingHintEl.textContent = isLoggedIn
+      ? "Click a star to rate this game."
+      : "Sign in to rate this game.";
+  }
+
+  commentFormEl.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    if (!getAuthToken()) {
+      const goAuth = confirm("Sign in to post a comment. Open the login page?");
+      if (goAuth) {
+        window.location.href = "auth.html";
+      }
+      return;
+    }
+
+    const content = commentInputEl?.value?.trim() || "";
+    if (!content) {
+      showNotice("Please write a comment first.", true);
+      return;
+    }
+
+    if (commentSubmitBtnEl) {
+      commentSubmitBtnEl.disabled = true;
+    }
+
+    try {
+      const body = { content };
+      if (commentFormRating != null) {
+        body.rating = commentFormRating;
+      }
+
+      const res = await fetch(`${API_BASE}/games/${encodeURIComponent(gameSlug)}/comments`, {
+        method: "POST",
+        headers: {
+          ...authHeaders(),
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(body)
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        throw new Error(data.error || "Failed to post comment");
+      }
+
+      if (commentInputEl) {
+        commentInputEl.value = "";
+      }
+      commentFormRating = null;
+      setStarsActive(commentStarsSelectEl, null);
+      if (commentRatingClearEl) {
+        commentRatingClearEl.hidden = true;
+      }
+
+showNotice("Comment published.");
+loadComments();
+
+      if (body.rating != null) {
+        await reloadGameRating();
+        await loadUserRating();
+      }
+    } catch (err) {
+      showNotice(err.message, true);
+    } finally {
+      if (commentSubmitBtnEl) {
+        commentSubmitBtnEl.disabled = !getAuthToken();
+      }
+    }
+  });
+}
+
+function renderGame(game) {
+  loadedGame = game;
+  console.log("Game ID:", game.id);
+  console.log("Game slug:", gameSlug);
+  const title = game.title || "Untitled";
+  const description = game.description || "";
+
+  document.title = `GameLab - ${title}`;
+
+  if (gameGenreEl) {
+    gameGenreEl.textContent = metaValue(game.genre);
+  }
+  if (gameTitleEl) {
+    gameTitleEl.textContent = title;
+  }
+  if (gameImageEl) {
+    const cover = mediaUrl(game.cover_url);
+    if (cover) {
+      gameImageEl.src = cover;
+      gameImageEl.alt = `${title} preview`;
+    }
+  }
+  if (gameIntroEl) {
+    gameIntroEl.textContent = shortDescription(description) || description;
+  }
+  if (gameFullDescEl) {
+    gameFullDescEl.textContent = description;
+  }
+  if (gameDeveloperEl) {
+    gameDeveloperEl.textContent = metaValue(game.publisher);
+  }
+  if (gameReleaseEl) {
+    gameReleaseEl.textContent = formatReleaseDate(game.release_date || game.created_at);
+  }
+  if (gameArchiveSizeEl) {
+    gameArchiveSizeEl.textContent = metaValue(game.archive_size);
+  }
+  if (gameInstalledSizeEl) {
+    gameInstalledSizeEl.textContent = metaValue(game.installed_size);
+  }
+  if (gamePlatformEl) {
+    gamePlatformEl.textContent = metaValue(game.platform);
+  }
+  if (gameMultiplayerEl) {
+    gameMultiplayerEl.textContent = metaValue(game.multiplayer);
+  }
+
+  updateRatingSummary(game.rating_avg, game.rating_count, game.rating_distribution);
+
+  if (gameFeaturesEl) {
+    gameFeaturesEl.innerHTML = "";
+    const features = Array.isArray(game.features) ? game.features : [];
+    if (features.length === 0) {
+      const li = document.createElement("li");
+      li.textContent = "No features listed yet.";
+      gameFeaturesEl.appendChild(li);
+    } else {
+      features.forEach((feature) => {
+        const li = document.createElement("li");
+        li.textContent = feature;
+        gameFeaturesEl.appendChild(li);
+      });
+    }
+  }
+
+  const minReq = game.min_requirements || {};
+  const recReq = game.rec_requirements || {};
+  renderRequirements(reqMinimumEl, minReq);
+  renderRequirements(reqRecommendedEl, recReq);
+
+  const reqSection = document.getElementById("game-requirements");
+  if (reqSection) {
+    reqSection.hidden = !hasRequirements(minReq) && !hasRequirements(recReq);
+  }
+
+  renderScreenshots(game.screenshots, title);
+  setupDownloadButton(game.download_url);
+  setOptionalSectionsVisible(true);
+}
+
+async function enableDeleteForModerator() {
+  const user = await getCurrentUser();
+  if (!user || (user.role !== "moderator" && user.role !== "admin")) {
+    return;
+  }
+
+  const deleteBtn = document.getElementById("delete-game-btn");
+  if (!deleteBtn || !loadedGame?.id) {
+    return;
+  }
+
+  deleteBtn.style.display = "inline-block";
+  deleteBtn.addEventListener("click", async () => {
+    const title = loadedGame.title || "this game";
+    if (!confirm(`Delete game "${title}" permanently? This action cannot be undone.`)) {
+      return;
+    }
+
+    const token = localStorage.getItem("gamelab_token");
+    try {
+      const res = await fetch(`${API_BASE}/games/${loadedGame.id}`, {
+        method: "DELETE",
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.error || "Deletion failed");
+      }
+      alert("Game deleted successfully.");
+      window.location.href = "games.html";
+    } catch (err) {
+      alert(`Error: ${err.message}`);
+    }
+  });
+}
+
+async function loadGameDetails() {
+  if (!gameSlug) {
+    showNotFound("No game specified. Open a game from the catalog.");
+    return;
+  }
+
+  try {
+    currentUser = await getCurrentUser();
+    setupCommentForm();
+
+    const response = await fetch(`${API_BASE}/games/${encodeURIComponent(gameSlug)}`);
+    const data = await response.json().catch(() => ({}));
+
+    if (response.status === 404) {
+      showNotFound("Game not found. The link may be outdated.");
+      return;
+    }
+
+    if (!response.ok) {
+      showNotFound(data.error || "Failed to load game details.");
+      return;
+    }
+
+    renderGame(data);
+    await Promise.all([loadUserRating(), loadComments(), enableDeleteForModerator()]);
+
+    setTimeout(() => {
+      loadComments();
+    }, 1000);
+  } catch {
+    showNotFound("Could not connect to the server. Please try again later.");
+  }
+}
+
 const accountLinkDetail = document.querySelector(".account-link");
 const token = localStorage.getItem("gamelab_token");
 if (accountLinkDetail) {
@@ -359,12 +878,9 @@ if (accountLinkDetail) {
   accountLinkDetail.setAttribute("aria-label", token ? "Open profile" : "Open account");
 }
 
-// Initialize
-renderGame();
-
-// Применяем переводы после загрузки данных игры
-if (typeof applyTranslations === "function") {
-  setTimeout(() => {
+initStarRating();
+loadGameDetails().then(() => {
+  if (typeof applyTranslations === "function") {
     applyTranslations();
-  }, 100);
-}
+  }
+});

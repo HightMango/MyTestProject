@@ -61,11 +61,12 @@
         <p><strong>Email:</strong> <span id="profile-email">-</span></p>
       </section>
 
-      <!-- DEMO: видно только при email с подстрокой «moderator» (клиент) -->
-      <section class="panel moderator-tools-panel" id="moderator-tools-panel" hidden aria-label="Moderator tools">
-        <h2>Модераторские инструменты</h2>
-        <p class="moderator-tools-note">DEMO: только визуальный режим, без запросов к серверу.</p>
-        <a class="btn btn-primary moderator-tools-link" href="moderator.html">Перейти в панель модератора</a>
+      <section class="panel moderation-panel" id="moderation-panel" hidden aria-label="Moderation Panel">
+        <h2>Moderation Panel</h2>
+        <p class="moderation-panel-note">Pending game submissions awaiting review.</p>
+        <p class="feedback" id="moderation-feedback" aria-live="polite"></p>
+        <div id="moderation-list" class="moderation-list"></div>
+        <p id="moderation-empty" class="moderation-empty" hidden>No pending submissions.</p>
       </section>
 
       <!-- Панель настроек -->
@@ -121,8 +122,8 @@
     <div class="footer-inner">
       <p class="footer-copy">© 2026 GameLab. All rights reserved.</p>
       <nav class="footer-links" aria-label="Footer navigation">
-        <a href="#">Privacy Policy</a>
-        <a href="#">Terms of Service</a>
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="terms.html">Terms of Service</a>
         <a href="#">Support</a>
       </nav>
     </div>

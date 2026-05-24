@@ -77,16 +77,65 @@ body {
   margin: 6px 0;
 }
 
-.moderator-tools-note {
+.moderation-panel-note {
   font-size: 0.88rem;
   color: var(--muted);
   margin-bottom: 12px !important;
 }
 
-.moderator-tools-link {
-  display: inline-block;
-  text-decoration: none;
-  text-align: center;
+.moderation-list {
+  display: grid;
+  gap: 10px;
+}
+
+.moderation-item {
+  border: 1px solid #32447d;
+  border-radius: 10px;
+  padding: 10px 12px;
+  background: linear-gradient(180deg, rgba(25, 37, 79, 0.88), rgba(15, 23, 53, 0.92));
+  display: grid;
+  gap: 8px;
+}
+
+.moderation-item-head {
+  display: grid;
+  gap: 4px;
+}
+
+.moderation-item-title {
+  margin: 0;
+  font-size: 0.98rem;
+}
+
+.moderation-item-meta {
+  margin: 0;
+  font-size: 0.84rem;
+  color: var(--muted);
+}
+
+.moderation-item-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.btn-moderation {
+  font-size: 0.85rem;
+  padding: 8px 12px;
+}
+
+.btn-moderation-approve {
+  background: linear-gradient(90deg, #2d9a5f, #45c98a);
+}
+
+.btn-moderation-reject {
+  background: linear-gradient(90deg, #c94a4a, #e07a7a);
+}
+
+.moderation-empty {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.9rem;
 }
 
 .bio-form {

@@ -72,7 +72,8 @@
         <ul class="game-features" id="game-features"></ul>
 
         <div class="game-actions">
-          <button class="btn btn-primary btn-large">Download</button>
+          <a class="btn btn-primary btn-large" id="game-download" href="#" hidden>Download</a>
+          <button id="delete-game-btn" class="btn btn-danger" style="display: none;">Delete Game</button>
         </div>
       </div>
     </section>
@@ -95,44 +96,37 @@
     <!-- Additional screenshots -->
     <section class="game-screenshots">
       <h3>Screenshots</h3>
-      <div class="screenshots-grid" id="screenshots-grid">
-        <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=600&q=80" alt="Screenshot 1">
-        <img src="https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=600&q=80" alt="Screenshot 2">
-        <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=600&q=80" alt="Screenshot 3">
-        <img src="https://images.unsplash.com/photo-1493711662062-fa541adb3fc8?auto=format&fit=crop&w=600&q=80" alt="Screenshot 4">
-      </div>
+      <div class="screenshots-grid" id="screenshots-grid"></div>
     </section>
 
     <!-- Rating section -->
     <section class="game-rating-section">
       <h3>Rate this game</h3>
-      <p class="section-hint">Visual preview — rating logic can be connected later.</p>
-      
-      <!-- Interactive stars -->
+      <p class="section-hint" id="rating-hint">Sign in to rate this game.</p>
+
       <div class="rating-interactive">
         <div class="stars-select" id="stars-select" aria-label="Select rating">
-          <span class="star" data-value="1">★</span>
-          <span class="star" data-value="2">★</span>
-          <span class="star" data-value="3">★</span>
-          <span class="star" data-value="4">★</span>
-          <span class="star" data-value="5">★</span>
+          <span class="star" data-value="1" role="button" tabindex="0">★</span>
+          <span class="star" data-value="2" role="button" tabindex="0">★</span>
+          <span class="star" data-value="3" role="button" tabindex="0">★</span>
+          <span class="star" data-value="4" role="button" tabindex="0">★</span>
+          <span class="star" data-value="5" role="button" tabindex="0">★</span>
         </div>
         <span class="rating-label" id="rating-label">Select your rating</span>
       </div>
 
-      <!-- Rating summary -->
       <div class="rating-shell">
         <div class="rating-summary">
           <span class="rating-value" id="rating-value">0.0</span>
-          <div class="stars-static" aria-label="Static rating stars">★★★★★</div>
+          <div class="stars-static" id="stars-static" aria-label="Average rating">☆☆☆☆☆</div>
           <span class="rating-votes" id="rating-votes">0 votes</span>
         </div>
-        <div class="rating-bars">
-          <div class="bar-row"><span>5</span><div class="bar"><div class="fill fill-5"></div></div><span>68%</span></div>
-          <div class="bar-row"><span>4</span><div class="bar"><div class="fill fill-4"></div></div><span>22%</span></div>
-          <div class="bar-row"><span>3</span><div class="bar"><div class="fill fill-3"></div></div><span>6%</span></div>
-          <div class="bar-row"><span>2</span><div class="bar"><div class="fill fill-2"></div></div><span>3%</span></div>
-          <div class="bar-row"><span>1</span><div class="bar"><div class="fill fill-1"></div></div><span>1%</span></div>
+        <div class="rating-bars" id="rating-bars">
+          <div class="bar-row" data-star="5"><span>5</span><div class="bar"><div class="fill"></div></div><span class="bar-pct">0%</span></div>
+          <div class="bar-row" data-star="4"><span>4</span><div class="bar"><div class="fill"></div></div><span class="bar-pct">0%</span></div>
+          <div class="bar-row" data-star="3"><span>3</span><div class="bar"><div class="fill"></div></div><span class="bar-pct">0%</span></div>
+          <div class="bar-row" data-star="2"><span>2</span><div class="bar"><div class="fill"></div></div><span class="bar-pct">0%</span></div>
+          <div class="bar-row" data-star="1"><span>1</span><div class="bar"><div class="fill"></div></div><span class="bar-pct">0%</span></div>
         </div>
       </div>
     </section>
@@ -140,39 +134,29 @@
     <!-- Comments section -->
     <section class="game-comments-section">
       <h3>Comments & Feedback</h3>
-      <p class="section-hint">Share your experience about this game.</p>
+      <p class="section-hint" id="comments-hint">Share your experience about this game.</p>
 
-      <form class="comment-form" action="#" method="post">
+      <div id="game-notice" class="game-notice" role="status" hidden></div>
+
+      <form class="comment-form" id="comment-form" action="#" method="post">
         <label for="comment-input">Write your comment</label>
-        <textarea id="comment-input" rows="4" placeholder="Share your feedback about this game..."></textarea>
-        <button type="button" class="btn btn-small">Publish (soon)</button>
+        <div class="comment-form-rating">
+          <span class="comment-rating-label">Optional rating:</span>
+          <div class="stars-select stars-select-small" id="comment-stars-select" aria-label="Optional rating with comment">
+            <span class="star" data-value="1" role="button" tabindex="0">★</span>
+            <span class="star" data-value="2" role="button" tabindex="0">★</span>
+            <span class="star" data-value="3" role="button" tabindex="0">★</span>
+            <span class="star" data-value="4" role="button" tabindex="0">★</span>
+            <span class="star" data-value="5" role="button" tabindex="0">★</span>
+          </div>
+          <button type="button" class="btn-link" id="comment-rating-clear" hidden>Clear rating</button>
+        </div>
+        <textarea id="comment-input" rows="4" maxlength="1000" placeholder="Share your feedback about this game..."></textarea>
+        <button type="submit" class="btn btn-small" id="comment-submit-btn">Publish comment</button>
       </form>
 
       <div class="comments-list" id="comments-list">
-        <article class="comment-item">
-          <div class="comment-head">
-            <strong>GamerPro99</strong>
-            <span>3 days ago</span>
-          </div>
-          <div class="comment-rating">★★★★☆</div>
-          <p>Amazing graphics and smooth gameplay! The story is engaging and the combat feels responsive. Can't wait for more updates.</p>
-        </article>
-        <article class="comment-item">
-          <div class="comment-head">
-            <strong>CasualPlayer</strong>
-            <span>1 week ago</span>
-          </div>
-          <div class="comment-rating">★★★★★</div>
-          <p>One of the best indie games I've played this year. The developers really put their heart into this project.</p>
-        </article>
-        <article class="comment-item">
-          <div class="comment-head">
-            <strong>PixelCritic</strong>
-            <span>2 weeks ago</span>
-          </div>
-          <div class="comment-rating">★★★☆☆</div>
-          <p>Good concept, but needs some balancing in the difficulty curve. Still worth checking out!</p>
-        </article>
+        <p class="comments-empty" id="comments-empty">No comments yet. Be the first!</p>
       </div>
     </section>
   </main>
@@ -181,8 +165,8 @@
     <div class="footer-inner">
       <p class="footer-copy">© 2026 GameLab. All rights reserved.</p>
       <nav class="footer-links" aria-label="Footer navigation">
-        <a href="#">Privacy Policy</a>
-        <a href="#">Terms of Service</a>
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="terms.html">Terms of Service</a>
         <a href="#">Support</a>
       </nav>
     </div>

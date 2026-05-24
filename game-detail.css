@@ -19,6 +19,25 @@
   text-decoration: underline;
 }
 
+.game-not-found {
+  grid-column: 1 / -1;
+  margin: 0;
+  text-align: center;
+  font-size: 1.2rem;
+  color: var(--text);
+}
+
+.game-not-found-hint {
+  grid-column: 1 / -1;
+  margin: 0;
+  text-align: center;
+  color: var(--muted);
+}
+
+.game-not-found-hint a {
+  color: var(--accent);
+}
+
 /* Hero card */
 .game-hero-card {
   display: grid;
@@ -142,6 +161,15 @@
 .btn-large:hover {
   opacity: 0.88;
   transform: translateY(-1px);
+}
+
+.btn-danger {
+  background: linear-gradient(90deg, #d33, #a00);
+  margin-left: 12px;
+}
+
+.btn-danger:hover {
+  background: linear-gradient(90deg, #e44, #b11);
 }
 
 /* System requirements */
@@ -331,11 +359,82 @@
   background: linear-gradient(90deg, #fbbf24, #f59e0b);
 }
 
-.fill-5 { width: 68%; }
-.fill-4 { width: 22%; }
-.fill-3 { width: 6%; }
-.fill-2 { width: 3%; }
-.fill-1 { width: 1%; }
+.bar .fill {
+  width: 0%;
+  transition: width 0.25s ease;
+}
+
+.stars-select-small .star {
+  font-size: 1.35rem;
+}
+
+.comment-form-rating {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+
+.comment-rating-label {
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.btn-link {
+  border: 0;
+  background: none;
+  color: var(--accent);
+  font-size: 0.82rem;
+  cursor: pointer;
+  padding: 0;
+  text-decoration: underline;
+}
+
+.btn-link:hover {
+  color: var(--accent-2);
+}
+
+.game-notice {
+  margin-bottom: 12px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 0.88rem;
+  background: rgba(87, 199, 255, 0.12);
+  border: 1px solid rgba(87, 199, 255, 0.35);
+  color: #c3d1ff;
+}
+
+.game-notice.is-error {
+  background: rgba(239, 68, 68, 0.12);
+  border-color: rgba(239, 68, 68, 0.4);
+  color: #fecaca;
+}
+
+.comments-empty {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.comment-delete-btn {
+  border: 0;
+  background: none;
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 2px 6px;
+  opacity: 0.7;
+  transition: opacity 0.15s ease;
+}
+
+.comment-delete-btn:hover {
+  opacity: 1;
+}
+
+.comment-form.is-disabled textarea,
+.comment-form.is-disabled .stars-select {
+  opacity: 0.55;
+  pointer-events: none;
+}
 
 /* ===== Comments Section ===== */
 .game-comments-section {
@@ -536,4 +635,38 @@ html[data-theme="light"] .req-item {
     width: 100%;
     text-align: center;
   }
+}
+
+/* Moderator submission review */
+.submission-author {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.moderation-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.req-list-ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.req-list-ul .req-item {
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 8px;
+  border: 1px solid var(--line);
+}
+
+.req-list-ul .req-empty {
+  color: var(--muted);
+  font-style: italic;
 }

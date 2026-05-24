@@ -11,6 +11,7 @@ const {
 const authRoutes = require("./routes/auth");
 const profileRoutes = require("./routes/profile");
 const assetRoutes = require("./routes/assets");
+const gamesRoutes = require("./routes/games");
 const createForumRouter = require("./routes/forum");
 
 let forumMessages = [
@@ -85,8 +86,10 @@ app.get("/api/health", (_req, res) => {
 app.use("/api/auth", authRoutes);
 app.use("/api/profile", profileRoutes);
 app.use("/api/assets", assetRoutes);
+app.use("/api/games", gamesRoutes);
 app.use("/api/forum", createForumRouter(forumState));
 
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.use(express.static(path.join(__dirname, "..")));
 
 app.use((error, _req, res, _next) => {
