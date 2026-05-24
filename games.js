@@ -43,6 +43,8 @@ function renderGameCard(game) {
           <span class="game-rating">${escapeHtml(formatRating(game.rating_avg, game.rating_count))}</span>
         </div>
         <p class="game-desc">${escapeHtml(game.short_description || "")}</p>
+        <!-- Новое поле для размера архива -->
+        <div class="game-size">${game.archive_size ? `📦 Archive: ${escapeHtml(game.archive_size)}` : ''}</div>
         <div class="game-meta">
           <a href="${escapeHtml(detailHref)}" class="btn btn-details">Details</a>
         </div>
